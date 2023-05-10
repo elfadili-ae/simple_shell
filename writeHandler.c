@@ -6,8 +6,7 @@
  */
 void _puts(char *s)
 {
-	write(1, s, _strlen(s));
-	write(1, "\n", 1);
+	write(1, s, _strlen(s, 0));
 }
 
 /**
