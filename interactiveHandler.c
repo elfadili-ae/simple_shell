@@ -1,39 +1,37 @@
 #include "shell.h"
 
 /**
- * intercative -
- *
- *
+ * intercative - interactive mode
+ * @argc: arguments count
+ * @argv: arguments vector
  */
-void interactive(void)
+void interactive(int argc,__attribute__((unused)) char *argv[])
 {
-	char *buffer;
+	char *buffer = NULL, **cmd;
 	size_t size;
 	ssize_t line;
+	int pid;
 
-	while (1)
+	while ((line = _getline(&buffer, &size, stdin)) != -1)
 	{
-		write(1, "$ ", 2);
-		line = getline(&buffer, &size, stdin);
-		if (line == -1)
-		{
-			_puts("Failed\n");
-			continue;
-		}
-		if (_strcmp(buffer, EXIT) == 0)
+		if (_strcmp(buffer,"exit\n") == 0)
 			break;
 
-		_puts(buffer);
+		cmd = _strtok(buffer, DELIM);
+
+		pid = fork();
+		if (pid == 0)
+		{
+			if (execve(cmd[0], cmd, NULL) == -1)
+				perror("Error");
+			return;
+		}
+		else
+		{
+			wait(NULL);
+		}
 	}
-	printf("hi there we are here\n");
-}
 
-/**
- *
- *
- *
- */
-void nonInteractive(void)
-{
-
+	free(buffer);
+	(void)argc;
 }
