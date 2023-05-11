@@ -31,5 +31,7 @@ void _puts(char *s);
 int _strlen(char *s, int j);
 int _strcmp(char *s1, char *s2);
 
+/*******MEMORY_USAGE***********/
+void freeSarray(char **Sarray);
 
 #endif

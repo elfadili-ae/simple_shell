@@ -37,6 +37,7 @@ ssize_t _getline(char **lptr, size_t *n, FILE *strm)
  */
 char *_which(char *filename)
 {
+	char *path;
 	struct stat st;
 
 	if (stat(filename, &st) != 0)
@@ -45,5 +46,8 @@ char *_which(char *filename)
 		_puts(filename);
 		perror("");
 		return (NULL);
+	}
 	
+
+	return (path);
 }
