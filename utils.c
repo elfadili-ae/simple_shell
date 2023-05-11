@@ -24,6 +24,26 @@ ssize_t _getline(char **lptr, size_t *n, FILE *strm)
 			perror("Error: failed to allocate memory");
 			exit(12);
 		}
+		else
+			_puts("\n");
 	}
 	return (val);
+}
+
+/**
+ * _which - find the path of a filename
+ * @filename: filename to find it's path
+ * Return: the file's path | NULL (not found)
+ */
+char *_which(char *filename)
+{
+	struct stat st;
+
+	if (stat(filename, &st) != 0)
+	{
+		_puts("./hsh: ");
+		_puts(filename);
+		perror("");
+		return (NULL);
+	
 }
