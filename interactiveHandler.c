@@ -29,13 +29,13 @@ void interactive(int argc, char *argv[])
 				_puts(cmd[0]);
 				_puts("not found\n");
 			}
-			freeSarray(cmd);
 			return;
 		}
 		else
 		{
 			wait(NULL);
 		}
+		freeSarray(cmd);
 	}
 
 	free(buffer);
