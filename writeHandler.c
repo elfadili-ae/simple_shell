@@ -6,19 +6,21 @@
  */
 void _puts(char *s)
 {
-	write(1, s, _strlen(s, 0));
+	write(1, s, _strlen(s));
 }
 
 /**
 * _strlen - calculate the length of a string
 * this function uses recursion.
 * @s: string
-* @j: index
 * Return: string length
 */
-int _strlen(char *s, int j)
+int _strlen(char *s)
 {
-	if (s[j] != '\0')
-		return (_strlen(s, ++j));
+	int j = 0;
+
+	for (j = 0; s[j] != '\0'; j++)
+		;
+
 	return (j);
 }

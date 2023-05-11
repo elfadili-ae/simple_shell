@@ -12,12 +12,15 @@ ssize_t _getline(char **lptr, size_t *n, FILE *strm)
 
 	_puts("$ ");
 	val = getline(lptr, n, strm);
+	if (val == 1 && lptr[0][0] == '\n')
+		return (0);
+
 	if (val == -1)
 	{
 		if (errno == EINVAL)
 		{
 			perror("Error: invalid argument");
-			exit (22);
+			exit(22);
 		}
 		else if (errno == ENOMEM)
 		{
@@ -38,12 +41,13 @@ ssize_t _getline(char **lptr, size_t *n, FILE *strm)
 char *_which(char *cmd)
 {
 	struct stat st;
-	char *path, **path_token, buff[1024];
+	char *path, **pathToken, *buff;
+	int i = 0, l1 = _strlen(cmd), l2;
 
-	if (stat(filename, &st) != 0)
+	if (stat(cmd, &st) != 0)
 	{
 		_puts("./hsh: ");
-		_puts(filename);
+		_puts(cmd);
 		perror("");
 		return (NULL);
 	}
@@ -55,18 +59,22 @@ char *_which(char *cmd)
 
 	while (pathToken[i] != NULL)
 	{
-		if (_strlen(pathToken[i]) + 1 + _strlen(cmd) + 1 > sizeof(buf))
-			continue;
+		l2 = _strlen(pathToken[i]);
+		buff = malloc(sizeof(char) * (l1 + l2 + 2));
+		if (buff == NULL)
+			return (NULL);
 
-		_memcpy(buff, pathToken[i], _strlen(pathToken[i]));
-		if (access(buf, X_OK) == 0)
-		{
-			printf("%s\n", buf);
-			found = 1;
-			break;
-		}
+		_memcpy(buff, pathToken[i], l2);
+		buff[_strlen(pathToken[i])] = '/';
+		memcpy(buff + _strlen(pathToken[i]) + 1, cmd, _strlen(cmd));
+
+		if (access(buff, X_OK) == 0)
+			return (buff);
+
+		free(buff);
 		i++;
 	}
+
 	freeSarray(pathToken);
 	free(path);
 

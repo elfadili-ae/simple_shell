@@ -28,4 +28,6 @@ void freeSarray(char **Sarray)
 	for (; Sarray[i] != NULL; i++)
 		free(Sarray[i]);
 	free(Sarray);
+
+	Sarray = NULL;
 }

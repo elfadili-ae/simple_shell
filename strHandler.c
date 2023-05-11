@@ -32,11 +32,7 @@ int _strcmp(char *s1, char *s2)
 
 int _strncmp(char *s1, char *s2, size_t n)
 {
-	int i = 0;
-	int len1 = 0, len2 = 0;
-
-	len1 = _strlen(s1);
-	len2 = _strlen(s2);
+	size_t i = 0;
 
 	while (i < n)
 	{

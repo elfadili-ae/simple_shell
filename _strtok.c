@@ -36,6 +36,7 @@ char **_strtok(char *str, const char *delim)
 			arrtok[i][k] = str[j];
 			j++;
 		}
+		arrtok[i][k] = '\0';
 	}
 	arrtok[i] = NULL;
 	arrtok[i + 1] = NULL;

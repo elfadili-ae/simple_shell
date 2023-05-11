@@ -1,6 +1,10 @@
 #include "shell.h"
 
-
+/**
+ *
+ *
+ *
+ */
 int main(int argc, char *argv[])
 {
 	if (isatty(STDIN_FILENO))

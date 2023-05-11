@@ -5,7 +5,7 @@
  *
  *
  */
-char **_getenv(char *v)
+char *_getenv(char *v)
 {
 	int i, len;
 
@@ -13,7 +13,7 @@ char **_getenv(char *v)
 	for (i = 0; environ[i]; i++)
 	{
 		if (_strncmp(v, environ[i], len) == 0)
-			return (&environ[i]);
+			return (environ[i]);
 	}
 
 	return (NULL);
