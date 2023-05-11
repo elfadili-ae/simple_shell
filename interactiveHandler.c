@@ -27,7 +27,7 @@ void interactive(int argc, char *argv[])
 				_puts(argv[0]);
 				_puts(": ");
 				_puts(cmd[0]);
-				_puts("not found\n");
+				_puts(": not found\n");
 			}
 			return;
 		}

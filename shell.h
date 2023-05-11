@@ -2,7 +2,7 @@
 #define SHELL_H
 
 #define DELIM " "
-
+extern char **environ;
 /********Libraries***************/
 #include <stdio.h>
 #include <unistd.h>
@@ -13,6 +13,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <stdarg.h>
 
 /******modes_functions**********/
 void interactive(int argc, char *argv[]);
@@ -30,7 +31,7 @@ int tokLen(char *str, const char *delim, int index);
 void _puts(char *s);
 int _strlen(char *s, int j);
 int _strcmp(char *s1, char *s2);
-
+int _strncmp(char *s1, char *s2, size_t n);
 /*******MEMORY_USAGE***********/
 void freeSarray(char **Sarray);
 

@@ -32,13 +32,13 @@ ssize_t _getline(char **lptr, size_t *n, FILE *strm)
 
 /**
  * _which - find the path of a filename
- * @filename: filename to find it's path
+ * @cmd: filename to find it's path
  * Return: the file's path | NULL (not found)
  */
-char *_which(char *filename)
+char *_which(char *cmd)
 {
-	char *path;
 	struct stat st;
+	char *path, **path_token, buff[1024];
 
 	if (stat(filename, &st) != 0)
 	{
@@ -47,7 +47,28 @@ char *_which(char *filename)
 		perror("");
 		return (NULL);
 	}
-	
+	path = _getenv("PATH");
+	if (path == NULL)
+		return (NULL);
 
-	return (path);
+	pathToken = _strtok(path, ":");
+
+	while (pathToken[i] != NULL)
+	{
+		if (_strlen(pathToken[i]) + 1 + _strlen(cmd) + 1 > sizeof(buf))
+			continue;
+
+		_memcpy(buff, pathToken[i], _strlen(pathToken[i]));
+		if (access(buf, X_OK) == 0)
+		{
+			printf("%s\n", buf);
+			found = 1;
+			break;
+		}
+		i++;
+	}
+	freeSarray(pathToken);
+	free(path);
+
+	return (NULL);
 }
