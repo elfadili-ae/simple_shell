@@ -3,8 +3,11 @@
 
 int main(int argc, char *argv[])
 {
-
-	interactive(argc, argv);
+	if (isatty(STDIN_FILENO))
+		interactive(argc, argv);
+	else
+		printf("non-interactive mode\n");
+		/*nonInteractive(argc, argv);*/
 
 	return (0);
 }
