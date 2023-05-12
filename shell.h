@@ -2,7 +2,10 @@
 #define SHELL_H
 
 #define DELIM " "
+#define UNUSED __attribute__((unused))
+
 extern char **environ;
+
 /********Libraries***************/
 #include <stdio.h>
 #include <unistd.h>
@@ -22,6 +25,7 @@ void nonInteractive(void);
 /*******Functions**************/
 ssize_t _getline(char **lptr, size_t *n, FILE *strm);
 char *_getenv(char *v);
+char *_which(char *cmd);
 
 /*******strtok*****************/
 char **_strtok(char *str, const char *delim);
@@ -32,7 +36,8 @@ int tokLen(char *str, const char *delim, int index);
 void _puts(char *s);
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
-int _strncmp(char *s1, char *s2, size_t n);
+int _strncmp(const char *s1, const char *s2, size_t n);
+char *_strcpy(char *dest, char *src);
 
 /*******MEMORY_USAGE***********/
 void freeSarray(char **Sarray);

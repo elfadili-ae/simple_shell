@@ -10,17 +10,15 @@
 int _strcmp(char *s1, char *s2)
 {
 	int i = 0;
-	int len = 0;
 
-	while (s1[len] != '\0' || s2[len] != '\0')
-		len++;
-	while (i < len)
+	while (s1[i] && s2[i] && s1[i] == s2[i])
 	{
-		if (s1[i] != s2[i])
-			break;
 		i++;
 	}
-	return (s1[i] - s2[i]);
+	if (s1[i] != s2[i])
+		return (s1[i] - s2[i]);
+
+	return (0);
 }
 
 /**
@@ -29,16 +27,36 @@ int _strcmp(char *s1, char *s2)
  * @s2: second string
  * Return: 0 (equal) 1 (s1 greater) -1 (s2 greater)
  */
-
-int _strncmp(char *s1, char *s2, size_t n)
+int _strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t i = 0;
+	size_t i;
 
-	while (i < n)
+	for (i = 0; i < n; i++)
 	{
-		if (s1[i] != s2[i])
-			break;
-		i++;
+		if (s1[i] != s2[i] || s1[i] == '\0' || s2[i] == '\0')
+		{
+			return (s1[i] - s2[i]);
+		}
 	}
-	return (s1[i] - s2[i]);
+
+	return 0;
+}
+
+/**
+ * _strcpy - print every other character of a string
+ *@src: pointer to a string to copy
+ *@dest: pointer destination
+ *Return: return dest
+ */
+char *_strcpy(char *dest, char *src)
+{
+	int i;
+	int l = _strlen(src);
+
+	for (i = 0; i < l; i++)
+	{
+		dest[i] = src[i];
+	}
+	dest[i] = '\0';
+	return (dest);
 }

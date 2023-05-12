@@ -2,12 +2,12 @@
 
 /**
  * interactive - simple shell interactive mode
- * @argc: arguments count
- * @argv: arguments vector
+ * @ac: arguments count
+ * @av: arguments vector
  */
-void interactive(int argc, __attribute__((unused))char *argv[])
+void interactive(UNUSED int ac, UNUSED char *av[])
 {
-	char *buffer = NULL, **cmd = NULL;
+	char *buffer = NULL, **cmd = NULL, *exe = NULL;
 	size_t size;
 	ssize_t line;
 	int pid;
@@ -17,27 +17,40 @@ void interactive(int argc, __attribute__((unused))char *argv[])
 		if (line == 0)
 			continue;
 		if (_strcmp(buffer, "exit\n") == 0)
+		{
+			free(buffer);
 			break;
+		}
 
 		cmd = _strtok(buffer, DELIM);
-		pid = fork();
-		if (pid == 0)
+		exe = _which(cmd[0]);
+		if (exe != NULL)
 		{
-			if (execve(cmd[0], cmd, NULL) == -1)
+			pid = fork();
+			if (pid == 0)
 			{
-				perror("Error");
+				if (execve(exe, cmd, NULL) == -1)
+				{
+					perror("Error");
+				}
+				free(exe);
+				return;
 			}
-			return;
+			else
+			{
+				wait(NULL);
+			}
 		}
 		else
 		{
-			wait(NULL);
+			_puts("Error: ");
+			_puts(cmd[0]);
+			_puts(": Not found\n");
 		}
+		free(buffer);
+		buffer = NULL;
 		freeSarray(cmd);
 	}
-
-	free(buffer);
-	(void)argc;
 }
 
 /**

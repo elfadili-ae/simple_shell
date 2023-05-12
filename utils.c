@@ -12,7 +12,8 @@ ssize_t _getline(char **lptr, size_t *n, FILE *strm)
 
 	_puts("$ ");
 	val = getline(lptr, n, strm);
-	if (val == 1 && lptr[0][0] == '\n')
+	fflush(stdout);
+	if (val == 1)
 		return (0);
 
 	if (val == -1)
@@ -40,43 +41,38 @@ ssize_t _getline(char **lptr, size_t *n, FILE *strm)
  */
 char *_which(char *cmd)
 {
-	struct stat st;
-	char *path, **pathToken, *buff;
-	int i = 0, l1 = _strlen(cmd), l2;
+	char *path, **pathToken, *buff = NULL;
+	int i, l1 = _strlen(cmd), l2;
 
-	if (stat(cmd, &st) != 0)
-	{
-		_puts("./hsh: ");
-		_puts(cmd);
-		perror("");
-		return (NULL);
-	}
 	path = _getenv("PATH");
 	if (path == NULL)
 		return (NULL);
 
 	pathToken = _strtok(path, ":");
 
-	while (pathToken[i] != NULL)
+	for (i = 0; pathToken[i] != NULL; i++)
 	{
 		l2 = _strlen(pathToken[i]);
-		buff = malloc(sizeof(char) * (l1 + l2 + 2));
+		buff = malloc(sizeof(char) * (l1 + l2 + 1));
 		if (buff == NULL)
+		{
+			freeSarray(pathToken);
 			return (NULL);
+		}
 
 		_memcpy(buff, pathToken[i], l2);
 		buff[_strlen(pathToken[i])] = '/';
-		memcpy(buff + _strlen(pathToken[i]) + 1, cmd, _strlen(cmd));
+		_memcpy(buff + _strlen(pathToken[i]) + 1, cmd, _strlen(cmd));
 
-		if (access(buff, X_OK) == 0)
+		if (buff == NULL || buff[0] == '\0')
+			return (NULL);
+		else if (access(buff, X_OK) == 0)
+		{
+			freeSarray(pathToken);
 			return (buff);
-
+		}
 		free(buff);
-		i++;
 	}
-
 	freeSarray(pathToken);
-	free(path);
-
 	return (NULL);
 }

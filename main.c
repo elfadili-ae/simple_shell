@@ -5,13 +5,14 @@
  *
  *
  */
-int main(int argc, char *argv[])
+int main(__attribute__((unused))int argc, char *argv[]__attribute__((unused)))
 {
+
 	if (isatty(STDIN_FILENO))
 		interactive(argc, argv);
-	else
+	/*else
 		printf("non-interactive mode\n");
-		/*nonInteractive(argc, argv);*/
+		nonInteractive(argc, argv);*/
 
 	return (0);
 }
