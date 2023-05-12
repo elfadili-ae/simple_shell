@@ -10,31 +10,28 @@ void interactive(UNUSED int ac, UNUSED char *av[])
 	char *buffer = NULL, **cmd = NULL, *exe = NULL;
 	size_t size;
 	ssize_t line;
-	int pid;
+	pid_t pid;
+	int cmd_size;
 
 	while ((line = _getline(&buffer, &size, stdin)) != -1)
 	{
 		if (line == 0)
 			continue;
 		if (_strcmp(buffer, "exit\n") == 0)
-		{
-			free(buffer);
 			break;
-		}
 
-		cmd = _strtok(buffer, DELIM);
+		cmd = _strtok(buffer, DELIM, &cmd_size);
 		exe = _which(cmd[0]);
 		if (exe != NULL)
 		{
 			pid = fork();
 			if (pid == 0)
 			{
-				if (execve(exe, cmd, NULL) == -1)
+				if (execve(exe, cmd, NULL) == 0)
 				{
-					perror("Error");
+					perror("execve");
+					exit(EXIT_FAILURE);
 				}
-				free(exe);
-				return;
 			}
 			else
 			{
@@ -47,10 +44,12 @@ void interactive(UNUSED int ac, UNUSED char *av[])
 			_puts(cmd[0]);
 			_puts(": Not found\n");
 		}
+		free(exe);
 		free(buffer);
 		buffer = NULL;
-		freeSarray(cmd);
+		freeSarray(cmd, cmd_size);
 	}
+	free(buffer);
 }
 
 /**

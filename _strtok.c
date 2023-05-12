@@ -5,20 +5,20 @@
  *
  *
  */
-char **_strtok(char *str, const char *delim)
+char **_strtok(char *str, const char *delim, int *size)
 {
 	char **arrtok;
-	int i, j = 0, k, ctok, toklen;
+	int i, j = 0, k, toklen;
 
 	if (str == NULL || delim == NULL || str[0] == '\0')
 		return (NULL);
 
-	ctok = countTok(str, delim);
-	arrtok = malloc(sizeof(char*) * (ctok + 2));
+	*size = countTok(str, delim);
+	arrtok = malloc(sizeof(char*) * (*size + 1));
 	if (arrtok == NULL)
 		return (NULL);
 
-	for (i = 0; i < ctok; i++)
+	for (i = 0; i < *size; i++)
 	{
 		while (str[j] == *delim)
 			j++;
@@ -27,7 +27,7 @@ char **_strtok(char *str, const char *delim)
 		arrtok[i] = malloc(sizeof(char) * (toklen + 1));
 		if (arrtok[i] == NULL)
 		{
-			free(arrtok);
+			freeSarray(arrtok, *size);
 			return (NULL);
 		}
 
@@ -39,7 +39,7 @@ char **_strtok(char *str, const char *delim)
 		arrtok[i][k] = '\0';
 	}
 	arrtok[i] = NULL;
-	arrtok[i + 1] = NULL;
+	/*arrtok[i + 1] = NULL;*/
 	return (arrtok);
 }
 

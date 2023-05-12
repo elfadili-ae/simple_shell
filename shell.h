@@ -28,7 +28,7 @@ char *_getenv(char *v);
 char *_which(char *cmd);
 
 /*******strtok*****************/
-char **_strtok(char *str, const char *delim);
+char **_strtok(char *str, const char *delim, int *size);
 int countTok(char *str, const char *delim);
 int tokLen(char *str, const char *delim, int index);
 
@@ -40,7 +40,7 @@ int _strncmp(const char *s1, const char *s2, size_t n);
 char *_strcpy(char *dest, char *src);
 
 /*******MEMORY_USAGE***********/
-void freeSarray(char **Sarray);
+void freeSarray(char **Sarray, int size);
 char *_memcpy(char *dest, char *src, unsigned int n);
 
 #endif

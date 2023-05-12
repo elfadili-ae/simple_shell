@@ -1,6 +1,6 @@
 #include "shell.h"
 /**
- * _getline - read line from the stream
+ * _getline - get the command from the stream
  * @lptr: pointer to the buffer where to store string
  * @n: pointer to the size of the string
  * @strm: the stream
@@ -12,7 +12,6 @@ ssize_t _getline(char **lptr, size_t *n, FILE *strm)
 
 	_puts("$ ");
 	val = getline(lptr, n, strm);
-	fflush(stdout);
 	if (val == 1)
 		return (0);
 
@@ -20,12 +19,12 @@ ssize_t _getline(char **lptr, size_t *n, FILE *strm)
 	{
 		if (errno == EINVAL)
 		{
-			perror("Error: invalid argument");
+			perror("Error:");
 			exit(22);
 		}
 		else if (errno == ENOMEM)
 		{
-			perror("Error: failed to allocate memory");
+			perror("Error:");
 			exit(12);
 		}
 		else
@@ -42,37 +41,34 @@ ssize_t _getline(char **lptr, size_t *n, FILE *strm)
 char *_which(char *cmd)
 {
 	char *path, **pathToken, *buff = NULL;
-	int i, l1 = _strlen(cmd), l2;
+	int i, size, l1 = _strlen(cmd), l2;
 
-	path = _getenv("PATH");
+	path = _getenv("PATH=");
 	if (path == NULL)
 		return (NULL);
 
-	pathToken = _strtok(path, ":");
-
-	for (i = 0; pathToken[i] != NULL; i++)
+	pathToken = _strtok(path + 5, ":", &size);
+	for (i = 0; i < size - 1; i++)
 	{
 		l2 = _strlen(pathToken[i]);
-		buff = malloc(sizeof(char) * (l1 + l2 + 1));
+		buff = malloc(sizeof(char) * (l1 + l2 + 2));
 		if (buff == NULL)
 		{
-			freeSarray(pathToken);
+			freeSarray(pathToken, size);
 			return (NULL);
 		}
 
 		_memcpy(buff, pathToken[i], l2);
 		buff[_strlen(pathToken[i])] = '/';
 		_memcpy(buff + _strlen(pathToken[i]) + 1, cmd, _strlen(cmd));
-
-		if (buff == NULL || buff[0] == '\0')
-			return (NULL);
-		else if (access(buff, X_OK) == 0)
+		buff[l1 + l2 + 1] = '\0';
+		if (0 == access(buff, X_OK))
 		{
-			freeSarray(pathToken);
+			freeSarray(pathToken, size);
 			return (buff);
 		}
 		free(buff);
 	}
-	freeSarray(pathToken);
+	freeSarray(pathToken, size);
 	return (NULL);
 }
