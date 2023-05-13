@@ -60,3 +60,24 @@ char *_strcpy(char *dest, char *src)
 	dest[i] = '\0';
 	return (dest);
 }
+
+/**
+ * _strchr2 - check if a character is in a string
+ * @s: string
+ * @c: character to locate first appearance
+ * Return: 1 (found) | 0 (not found)
+ */
+
+int _strchr2(char *s, char c)
+{
+	int i;
+
+	for (i = 0; s[i] != '\0'; i++)
+	{
+		if (s[i] == c)
+			return (1);
+	}
+	if (s[i] == c)
+		return (1);
+	return (0);
+}

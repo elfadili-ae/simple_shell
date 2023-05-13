@@ -38,6 +38,7 @@ int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 char *_strcpy(char *dest, char *src);
+int _strchr2(char *s, char c);
 
 /*******MEMORY_USAGE***********/
 void freeSarray(char **Sarray, int size);
