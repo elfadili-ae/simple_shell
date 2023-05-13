@@ -34,6 +34,7 @@ int (*get_builtin(char *cmd))(char **)
 	builtin_t bltin[] = {
 		{"exit", builtin_exit},
 		{"env", builtin_env},
+		{"cd", builtin_cd},
 		{NULL, NULL}
 	};
 

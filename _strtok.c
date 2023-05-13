@@ -39,7 +39,6 @@ char **_strtok(char *str, const char *delim, int *size)
 		arrtok[i][k] = '\0';
 	}
 	arrtok[i] = NULL;
-	/*arrtok[i + 1] = NULL;*/
 	return (arrtok);
 }
 
@@ -74,7 +73,7 @@ int tokLen(char *str, const char *delim, int index)
 {
 	int len;
 
-	for (len = 0; str[index + len] != '\n'; len++)
+	for (len = 0; str[index + len] && str[index + len] != '\n'; len++)
 	{
 		if (str[index + len] == *delim)
 			break;
