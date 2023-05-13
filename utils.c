@@ -71,3 +71,18 @@ char *_which(char *cmd)
 	freeSarray(pathToken, size);
 	return (NULL);
 }
+/**
+ *
+ *
+ */
+void Notfound(char *argv, char *cmd, int c)
+{
+
+	_puts(argv);
+	_puts(": ");
+	fflush(stdout);
+	print_int(c);
+	_puts(": ");
+	_puts(cmd);
+	_puts(": not found\n");
+}

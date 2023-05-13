@@ -10,11 +10,11 @@ void _puts(char *s)
 }
 
 /**
-* _strlen - calculate the length of a string
-* this function uses recursion.
-* @s: string
-* Return: string length
-*/
+ * _strlen - calculate the length of a string
+ * this function uses recursion.
+ * @s: string
+ * Return: string length
+ */
 int _strlen(char *s)
 {
 	int j = 0;
@@ -23,4 +23,25 @@ int _strlen(char *s)
 		;
 
 	return (j);
+}
+/**
+ *
+ *
+ *
+ */
+void print_int(int n)
+{
+	char buffer[20];
+	int i = 0;
+	int is_negative = n < 0;
+
+	if (is_negative)
+		n = -n;
+	do {
+		buffer[i++] = n % 10 + '0';
+	} while ((n /= 10) > 0);
+	if (is_negative)
+		buffer[i++] = '-';
+	while (i > 0)
+		write(1, &buffer[--i], 1);
 }
