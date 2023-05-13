@@ -32,6 +32,7 @@ typedef struct builtin_t {
 /******modes_functions**********/
 void interactive(int argc, char *argv[]);
 void nonInteractive(void);
+void processHandler(char *exe, char **cmd);
 
 /*******Functions**************/
 ssize_t _getline(char **lptr, size_t *n, FILE *strm);
@@ -40,10 +41,11 @@ char *_which(char *cmd);
 int isDir(char *path);
 
 /*******built-in***************/
-int builtinCheck(char **cmd);
-int (*get_builtin(char *cmd))(char**);
+int builtinCheck(char **arg);
+int (*get_builtin(char *arg))(char**);
 int builtin_exit(char **arg);
 int builtin_env(char **arg);
+int builtin_cd(char **arg)
 
 /*******strtok*****************/
 char **_strtok(char *str, const char *delim, int *size);

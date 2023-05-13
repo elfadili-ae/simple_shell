@@ -38,6 +38,20 @@ int builtin_exit(char **cmd)
 	return (1);
 }
 /**
+ *
+ *
+ *
+ */
+int builtin_cd(char **cmd)
+{
+        int ret = chdir(cmd[1]);
+        if (ret == -1)
+        {
+                perror("cd");
+        }
+        return (1);
+}
+/**
  * builtin_env
  *
  *
