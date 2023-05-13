@@ -45,7 +45,7 @@ int builtinCheck(char **arg);
 int (*get_builtin(char *arg))(char**);
 int builtin_exit(char **arg);
 int builtin_env(char **arg);
-int builtin_cd(char **arg)
+int builtin_cd(char **arg);
 
 /*******strtok*****************/
 char **_strtok(char *str, const char *delim, int *size);
