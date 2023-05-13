@@ -18,7 +18,7 @@ void interactive(UNUSED int ac, UNUSED char *av[])
 			continue;
 
 		cmd = _strtok(buffer, DELIM, &cmd_size);
-		isBuiltin = builtinCheck(cmd); /*check if cmd is a built-in*/
+		isBuiltin = builtinCheck(cmd);
 		if (isBuiltin)
 			continue;
 		else if (cmd[0][0] == '/')
