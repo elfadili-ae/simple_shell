@@ -26,7 +26,7 @@ int builtinCheck(char *cmd)
  * Return: function (success) | 0 (failed)
  *
  */
-int (*get_builtin(char *cmd))(char*)
+int (*get_builtin(char *cmd))(char *)
 {
 	int i;
 	builtin_t builtin[] = {

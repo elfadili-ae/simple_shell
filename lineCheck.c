@@ -17,3 +17,19 @@ int isDir(char *path)
 	}
 	return (0);
 }
+/**
+ *
+ *
+ *
+ */
+int _isDigit(char *s)
+{
+	int i = 0;
+
+	for (; s[i] != '\0'; i++)
+	{
+		if (*s >= '0' && *s <= '9')
+			return 1;
+	}
+	return 0;
+}

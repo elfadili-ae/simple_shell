@@ -5,21 +5,48 @@
  *
  *
  */
-void builtin_exit(char *arg)
+int builtin_exit(char *arg)
 {
 	char **cmd;
-	int size;
+	int size = 0;
 
 	cmd = _strtok(arg, DELIM, &size);
 
-
-	if (size == 2)
+	if (size == 1)
+		exit(EXIT_SUCCESS);
+	else if (size == 2)
 	{
 		if (_isDigit(cmd[1]))
-		{
-			exit(cmd[1]));
+			exit(atoi(cmd[1]));
 		else
-			printf("%s: numeric argument required\n",cmd[1]);
+		{
+			_puts("exit: numeric argument required\n");
+			exit(EXIT_SUCCESS);
+		}
 	}
-	exit(EXIT_SUCCESS);
+	else
+	{
+		if(_isDigit(cmd[1]))
+			_puts("exit: too many arguments\n");
+		else
+		{
+			printf("usage: exit [argument]\n"); /* Optional line */
+			exit(EXIT_SUCCESS);
+		}
+	}
+	return (0);
+}
+/**
+ *
+ */
+int builtin_env(char *arg)
+{
+	int i = 0;
+
+	for (; environ[i] != NULL; i++)
+	{
+		_puts(environ[i]);
+		_puts("\n");
+	}
+	return (0);
 }

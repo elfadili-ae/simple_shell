@@ -14,7 +14,7 @@ extern char **environ;
  */
 typedef struct builtin_t {
 	char *name;
-	int (*f)(char*);
+	int (*f)(char *);
 } builtin_t;
 
 /********Libraries***************/
@@ -42,6 +42,8 @@ int isDir(char *path);
 /*******built-in***************/
 int builtinCheck(char *cmd);
 int (*get_builtin(char *cmd))(char*);
+int builtin_exit(char *arg);
+int builtin_env(char *arg);
 
 /*******strtok*****************/
 char **_strtok(char *str, const char *delim, int *size);
@@ -59,5 +61,8 @@ int _strchr2(char *s, char c);
 /*******MEMORY_USAGE***********/
 void freeSarray(char **Sarray, int size);
 char *_memcpy(char *dest, char *src, unsigned int n);
+
+/********LINE_CHECKER**********/
+int _isDigit(char *s);
 
 #endif
