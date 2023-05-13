@@ -14,7 +14,7 @@ extern char **environ;
  */
 typedef struct builtin_t {
 	char *name;
-	int (*f)(char *);
+	int (*f)(char **);
 } builtin_t;
 
 /********Libraries***************/
@@ -40,10 +40,10 @@ char *_which(char *cmd);
 int isDir(char *path);
 
 /*******built-in***************/
-int builtinCheck(char *cmd);
-int (*get_builtin(char *cmd))(char*);
-int builtin_exit(char *arg);
-int builtin_env(char *arg);
+int builtinCheck(char **cmd);
+int (*get_builtin(char *cmd))(char**);
+int builtin_exit(char **arg);
+int builtin_env(char **arg);
 
 /*******strtok*****************/
 char **_strtok(char *str, const char *delim, int *size);

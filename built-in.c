@@ -6,17 +6,19 @@
  *
  *
  */
-int builtinCheck(char *cmd)
+int builtinCheck(char **cmd)
 {
-	int (*fun)(char*);
+	int (*fun)(char**);
 
-	fun = get_builtin(cmd);
+	fun = get_builtin(cmd[0]);
 	if (fun)
 	{
 		fun(cmd);
 	}
+	else
+		return (0);
 
-	return (0);
+	return (1);
 }
 
 /**
@@ -26,19 +28,19 @@ int builtinCheck(char *cmd)
  * Return: function (success) | 0 (failed)
  *
  */
-int (*get_builtin(char *cmd))(char *)
+int (*get_builtin(char *cmd))(char **)
 {
 	int i;
-	builtin_t builtin[] = {
+	builtin_t bltin[] = {
 		{"exit", builtin_exit},
 		{"env", builtin_env},
 		{NULL, NULL}
 	};
 
-		for (i = 0; builtin[i].name != NULL; i++)
+	for (i = 0; bltin[i].name != NULL; i++)
 	{
-		if (_strncmp(builtin[i].name, cmd, _strlen(cmd)))
-			return (builtin[i].f);
+		  if (_strncmp(cmd, bltin[i].name, _strlen(bltin[i].name)) == 0)
+			  return (bltin[i].f);
 	}
 	return (0);
 }

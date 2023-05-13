@@ -19,7 +19,10 @@ void interactive(UNUSED int ac, UNUSED char *av[])
 			continue;
 
 		cmd = _strtok(buffer, DELIM, &cmd_size);
-		if (cmd[0][0] == '/')
+		isBuiltin = builtinCheck(cmd); /*check if cmd is a built-in*/
+		if (isBuiltin)
+			continue;
+		else if (cmd[0][0] == '/')
 		{
 			exe = cmd[0];
 			flag = 0;
@@ -28,7 +31,6 @@ void interactive(UNUSED int ac, UNUSED char *av[])
 			flag = 1;
 			exe = _which(cmd[0]);
 		}
-		isBuiltin = builtinCheck(exe); /*check if cmd is a built-in*/
 		if (!isBuiltin && !isDir(buffer) && exe != NULL)
 		{
 			pid = fork();
@@ -39,10 +41,9 @@ void interactive(UNUSED int ac, UNUSED char *av[])
 					perror("execve");
 					exit(EXIT_FAILURE);
 				}
-			} else
-			{
-				wait(NULL);
 			}
+			else
+				wait(NULL);
 		} else
 		{
 			_puts("Error: ");
