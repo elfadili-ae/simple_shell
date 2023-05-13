@@ -10,8 +10,7 @@ ssize_t _getline(char **lptr, size_t *n, FILE *strm)
 {
 	ssize_t val;
 
-	if (isatty(STDIN_FILENO))
-		_puts("$ ");
+	_puts("$ ");
 	val = getline(lptr, n, strm);
 	if (val == 1)
 		return (0);
@@ -28,6 +27,8 @@ ssize_t _getline(char **lptr, size_t *n, FILE *strm)
 			perror("Error:");
 			exit(12);
 		}
+		else
+			_puts("\n");
 	}
 	return (val);
 }
