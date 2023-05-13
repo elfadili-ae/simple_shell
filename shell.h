@@ -6,6 +6,17 @@
 
 extern char **environ;
 
+/*******built-in_struct**********/
+/**
+ * builtin_t - built-ins name and function
+ * @name: name of the built-in
+ * @f: the built-in's function
+ */
+typedef struct builtin_t {
+	char *name;
+	int (*f)(char*);
+} builtin_t;
+
 /********Libraries***************/
 #include <stdio.h>
 #include <unistd.h>
@@ -26,6 +37,11 @@ void nonInteractive(void);
 ssize_t _getline(char **lptr, size_t *n, FILE *strm);
 char *_getenv(char *v);
 char *_which(char *cmd);
+int isDir(char *path);
+
+/*******built-in***************/
+int builtinCheck(char *cmd);
+int (*get_builtin(char *cmd))(char*);
 
 /*******strtok*****************/
 char **_strtok(char *str, const char *delim, int *size);

@@ -11,35 +11,30 @@ void interactive(UNUSED int ac, UNUSED char *av[])
 	size_t size;
 	ssize_t line;
 	pid_t pid;
-	int cmd_size, flag = 0;
+	int cmd_size, flag = 0, isBuiltin = 0;
 
 	while ((line = _getline(&buffer, &size, stdin)) != -1)
 	{
 		if (line == 0)
 			continue;
-		if (_strcmp(buffer, "exit\n") == 0)
-		{
-			free(buffer);
-			exit(EXIT_SUCCESS);
-		}
 
 		cmd = _strtok(buffer, DELIM, &cmd_size);
-		if (_strchr2(buffer, '/') == 0)
+		if (cmd[0][0] == '/')
 		{
-			exe = _which(cmd[0]);
-			flag = 1;
+			exe = cmd[0];
+			flag = 0;
 		}else
 		{
-			flag = 0;
-			exe = cmd[0];
+			flag = 1;
+			exe = _which(cmd[0]);
 		}
-
-		if (exe != NULL)
+		isBuiltin = builtinCheck(exe); /*check if cmd is a built-in*/
+		if (!isBuiltin && !isDir(buffer) && exe != NULL)
 		{
 			pid = fork();
-			if (pid == 0)
+			if (pid == 0) /*child process*/
 			{
-				if (execve(exe, cmd, NULL) == 0)
+				if (execve(exe, cmd, NULL) == -1)
 				{
 					perror("execve");
 					exit(EXIT_FAILURE);
