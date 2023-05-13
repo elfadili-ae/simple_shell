@@ -39,6 +39,7 @@ ssize_t _getline(char **lptr, size_t *n, FILE *strm);
 char *_getenv(char *v);
 char *_which(char *cmd);
 int isDir(char *path);
+void Notfound(char *labalena,char *cmd, int c);
 
 /*******built-in***************/
 int builtinCheck(char **arg);
@@ -64,7 +65,8 @@ int _strchr2(char *s, char c);
 void freeSarray(char **Sarray, int size);
 char *_memcpy(char *dest, char *src, unsigned int n);
 
-/********LINE_CHECKER**********/
+/*******LINE_EXTRE_SPICY******/
 int _isDigit(char *s);
+void print_int(int n);
 
 #endif

@@ -5,20 +5,21 @@
  * @ac: arguments count
  * @av: arguments vector
  */
-void interactive(UNUSED int ac, UNUSED char *av[])
+void interactive(UNUSED int ac, char *av[])
 {
 	char *buffer = NULL, **cmd = NULL, *exe = NULL;
 	size_t size;
 	ssize_t line;
-	int cmd_size, flag = 0, isBuiltin = 0;
+	int cmd_size, flag = 0, isBuiltin = 0, Ecount = 0;
 
 	while ((line = _getline(&buffer, &size, stdin)) != -1)
 	{
+		Ecount++;
 		if (line == 0)
 			continue;
 
 		cmd = _strtok(buffer, DELIM, &cmd_size);
-		isBuiltin = builtinCheck(cmd);
+		isBuiltin = builtinCheck(cmd); /*check if cmd is a built-in*/
 		if (isBuiltin)
 			continue;
 		else if (cmd[0][0] == '/')
@@ -34,11 +35,7 @@ void interactive(UNUSED int ac, UNUSED char *av[])
 		{
 			processHandler(exe, cmd);
 		} else
-		{
-			_puts("Error: ");
-			_puts(cmd[0]);
-			_puts(": Not found\n");
-		}
+			Notfound(av[0], cmd[0], Ecount);
 		if (flag == 1)
 			free(exe);
 		free(buffer);
