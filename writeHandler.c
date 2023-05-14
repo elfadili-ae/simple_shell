@@ -15,7 +15,7 @@ void _puts(char *s)
  * @s: string
  * Return: string length
  */
-int _strlen(char *s)
+int _strlen(const char *s)
 {
 	int j = 0;
 

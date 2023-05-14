@@ -1,7 +1,7 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#define DELIM " "
+#define DELIM " \t\n"
 #define UNUSED __attribute__((unused))
 
 extern char **environ;
@@ -52,10 +52,11 @@ int builtin_cd(char **arg);
 char **_strtok(char *str, const char *delim, int *size);
 int countTok(char *str, const char *delim);
 int tokLen(char *str, const char *delim, int index);
+int isDelim(char c, const char *delim);
 
 /********str_helpers***********/
 void _puts(char *s);
-int _strlen(char *s);
+int _strlen(const char *s);
 int _strcmp(char *s1, char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 char *_strcpy(char *dest, char *src);

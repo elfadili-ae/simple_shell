@@ -31,22 +31,27 @@ int builtin_exit(char **cmd)
 			_puts("exit: too many arguments\n");
 		else
 		{
-			printf("usage: exit [argument]\n"); /* Optional line */
+			printf("usage: exit [argument]\n");
 			exit(EXIT_SUCCESS);
 		}
 	}
 	return (1);
 }
 /**
- *
+ * builtin_cd
  *
  *
  */
 int builtin_cd(char **cmd)
 {
-	int ret = chdir(cmd[1]);
+	int status;
 
-	if (ret == -1)
+	if (!cmd[1])
+		status = chdir("/home");
+	else
+		status = chdir(cmd[1]);
+
+	if (status == -1)
 	{
 		perror("cd");
 	}

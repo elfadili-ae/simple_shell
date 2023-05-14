@@ -57,11 +57,13 @@ int countTok(char *str, const char *delim)
 
 	for (i = 0; str[i] != '\0'; i++)
 	{
-		if (str[i] == *delim)
+		if (!isDelim(str[i], delim))
+		{
 			count++;
+			i += tokLen(str, delim, i);
+		}
 	}
-
-	return (++count);
+	return (count);
 }
 /**
  * tokLen - calculate the length of the token
@@ -75,8 +77,30 @@ int tokLen(char *str, const char *delim, int index)
 
 	for (len = 0; str[index + len] && str[index + len] != '\n'; len++)
 	{
-		if (str[index + len] == *delim)
+		if (isDelim(str[index + len], delim))
+		{
 			break;
+		}
 	}
 	return (len);
+}
+
+/**
+ * isDelim - check if the character is equalt to a delimiter
+ * @c: character to check
+ * @delim: delimiter(s)
+ * Return: 1 (is delimiter) | 0 (not delimieter)
+ */
+int isDelim(char c, const char *delim)
+{
+	int i;
+
+	for (i = 0; i < _strlen(delim); i++)
+	{
+		if (c == delim[i])
+			return (1);
+	}
+
+	return (0);
+
 }
