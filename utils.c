@@ -37,12 +37,12 @@ ssize_t _getline(char **lptr, size_t *n, FILE *strm)
  * @cmd: filename to find it's path
  * Return: the file's path | NULL (not found)
  */
-char *_which(char *cmd)
+char *_which(char *cmd, char **envp)
 {
 	char *path, **pathToken, *buff = NULL;
 	int i, size, l1 = _strlen(cmd), l2;
 
-	path = _getenv("PATH=");
+	path = _getenv("PATH=", envp);
 	if (path == NULL)
 		return (NULL);
 

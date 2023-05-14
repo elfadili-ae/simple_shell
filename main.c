@@ -1,18 +1,14 @@
 #include "shell.h"
 
 /**
- *
+ * main - simple shell
  *
  *
  */
-int main(__attribute__((unused))int argc, char *argv[]__attribute__((unused)))
+int main(UNUSED int argc, UNUSED char *argv[], char *envp[])
 {
 
-/*	if (isatty(STDIN_FILENO))*/
-	interactive(argc, argv);
-	/*else
-		printf("non-interactive mode\n");
-		nonInteractive(argc, argv);*/
+	interactive(argc, argv, envp);
 
 	return (0);
 }

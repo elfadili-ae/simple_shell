@@ -6,14 +6,14 @@
  *
  *
  */
-int builtinCheck(char **cmd)
+int builtinCheck(char **cmd, char **envp)
 {
-	int (*fun)(char**);
+	int (*fun)(char**, char**);
 
 	fun = get_builtin(cmd[0]);
 	if (fun)
 	{
-		fun(cmd);
+		fun(cmd, envp);
 	}
 	else
 		return (0);
@@ -28,7 +28,7 @@ int builtinCheck(char **cmd)
  * Return: function (success) | 0 (failed)
  *
  */
-int (*get_builtin(char *cmd))(char **)
+int (*get_builtin(char *cmd))(char **, char **)
 {
 	int i;
 	builtin_t bltin[] = {

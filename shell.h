@@ -4,7 +4,7 @@
 #define DELIM " \t\n"
 #define UNUSED __attribute__((unused))
 
-extern char **environ;
+/*extern char **environ;*/
 
 /*******built-in_struct**********/
 /**
@@ -14,7 +14,7 @@ extern char **environ;
  */
 typedef struct builtin_t {
 	char *name;
-	int (*f)(char **);
+	int (*f)(char **, char **);
 } builtin_t;
 
 /********Libraries***************/
@@ -30,23 +30,23 @@ typedef struct builtin_t {
 #include <stdarg.h>
 
 /******modes_functions**********/
-void interactive(int argc, char *argv[]);
+void interactive(int argc, char *argv[], char *envp[]);
 void nonInteractive(void);
-void processHandler(char *exe, char **cmd);
+void processHandler(char *exe, char **cmd, char *envp[]);
 
 /*******Functions**************/
 ssize_t _getline(char **lptr, size_t *n, FILE *strm);
-char *_getenv(char *v);
-char *_which(char *cmd);
+char *_getenv(char *arg, char **envp);
+char *_which(char *cmd, char **envp);
 int isDir(char *path);
 void Notfound(char *labalena,char *cmd, int c);
 
 /*******built-in***************/
-int builtinCheck(char **arg);
-int (*get_builtin(char *arg))(char**);
-int builtin_exit(char **arg);
-int builtin_env(char **arg);
-int builtin_cd(char **arg);
+int builtinCheck(char **arg, char **envp);
+int (*get_builtin(char *arg))(char**, char**);
+int builtin_exit(char **arg, char **envp);
+int builtin_env(char **arg, char **envp);
+int builtin_cd(char **arg, char **envp);
 
 /*******strtok*****************/
 char **_strtok(char *str, const char *delim, int *size);

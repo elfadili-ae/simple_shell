@@ -5,16 +5,16 @@
  *
  *
  */
-char *_getenv(char *v)
+char *_getenv(char *var, char *envp[])
 {
 	int i, len;
 
-	len = _strlen(v);
-	for (i = 0; environ[i]; i++)
+	len = _strlen(var);
+	for (i = 0; envp[i]; i++)
 	{
-		if (_strncmp(environ[i], v, len) == 0)
+		if (_strncmp(envp[i], var, len) == 0)
 		{
-			return (environ[i]);
+			return (envp[i]);
 		}
 	}
 

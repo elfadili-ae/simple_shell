@@ -5,7 +5,7 @@
  *
  *
  */
-int builtin_exit(char **cmd)
+int builtin_exit(char **cmd, UNUSED char **envp)
 {
 
 	int size = 0;
@@ -42,7 +42,7 @@ int builtin_exit(char **cmd)
  *
  *
  */
-int builtin_cd(char **cmd)
+int builtin_cd(char **cmd, UNUSED char **envp)
 {
 	int status;
 
@@ -63,13 +63,13 @@ int builtin_cd(char **cmd)
  *
  *
  */
-int builtin_env(UNUSED char **arg)
+int builtin_env(UNUSED char **arg, char **envp)
 {
 	int i = 0;
 
-	for (; environ[i] != NULL; i++)
+	for (; envp[i] != NULL; i++)
 	{
-		_puts(environ[i]);
+		_puts(envp[i]);
 		_puts("\n");
 	}
 	return (1);
