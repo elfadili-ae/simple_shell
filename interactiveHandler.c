@@ -5,7 +5,7 @@
  * @ac: arguments count
  * @av: arguments vector
  */
-void interactive(UNUSED int ac, char *av[])
+void interactive(UNUSED int ac, char *av[], char *envp[])
 {
 	char *buffer = NULL, **cmd = NULL, *exe = NULL;
 	size_t size;
@@ -19,7 +19,7 @@ void interactive(UNUSED int ac, char *av[])
 			continue;
 
 		cmd = _strtok(buffer, DELIM, &cmd_size);
-		isBuiltin = builtinCheck(cmd); /*check if cmd is a built-in*/
+		isBuiltin = builtinCheck(cmd, envp); /*check if cmd is a built-in*/
 		if (isBuiltin)
 			continue;
 		else if (cmd[0][0] == '/')
@@ -29,11 +29,11 @@ void interactive(UNUSED int ac, char *av[])
 		} else
 		{
 			flag = 1;
-			exe = _which(cmd[0]);
+			exe = _which(cmd[0], envp);
 		}
 		if (!isBuiltin && !isDir(buffer) && exe != NULL)
 		{
-			processHandler(exe, cmd);
+			processHandler(exe, cmd, envp);
 		} else
 			Notfound(av[0], cmd[0], Ecount);
 		if (flag == 1)
@@ -50,7 +50,7 @@ void interactive(UNUSED int ac, char *av[])
  * @exe: name of the executable to run in the child process
  * @cmd: the command buffer
  */
-void processHandler(char *exe, char **cmd)
+void processHandler(char *exe, char **cmd, char *envp[])
 {
 	pid_t pid;
 
@@ -58,7 +58,7 @@ void processHandler(char *exe, char **cmd)
 	if (pid == 0)
 	{
 		/*child process*/
-		if (execve(exe, cmd, environ) == -1)
+		if (execve(exe, cmd, envp) == -1)
 		{
 			perror("execve");
 			exit(EXIT_FAILURE);
