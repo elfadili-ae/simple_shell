@@ -8,21 +8,29 @@
 int builtin_exit(char **cmd, UNUSED char **envp)
 {
 
-	int size = 0;
+	int size = 0, code;
 
 	for (; cmd[size] != NULL; size++)
 		;
 
 	if (size == 1)
+	{
+		freeSarray(cmd, size);
 		exit(EXIT_SUCCESS);
+	}
 	else if (size == 2)
 	{
 		if (_isDigit(cmd[1]))
-			exit(atoi(cmd[1]));
+		{
+			code = atoi(cmd[1]);
+			freeSarray(cmd, size);
+			exit(code);
+		}
 		else
 		{
 			_puts("exit: numeric argument required\n");
-			exit(EXIT_SUCCESS);
+			freeSarray(cmd, size);
+			exit(2);
 		}
 	}
 	else
@@ -32,7 +40,8 @@ int builtin_exit(char **cmd, UNUSED char **envp)
 		else
 		{
 			printf("usage: exit [argument]\n");
-			exit(EXIT_SUCCESS);
+			freeSarray(cmd, size);
+			exit(2);
 		}
 	}
 	return (1);
@@ -45,7 +54,10 @@ int builtin_exit(char **cmd, UNUSED char **envp)
 int builtin_cd(char **cmd, UNUSED char **envp)
 {
 	int status;
+	int size = 0;
 
+	for (; cmd[size] != NULL; size++)
+		;
 	if (!cmd[1])
 		status = chdir("/home");
 	else
@@ -55,6 +67,7 @@ int builtin_cd(char **cmd, UNUSED char **envp)
 	{
 		perror("cd");
 	}
+	freeSarray(cmd, size);
 	return (1);
 }
 
@@ -63,14 +76,17 @@ int builtin_cd(char **cmd, UNUSED char **envp)
  *
  *
  */
-int builtin_env(UNUSED char **arg, char **envp)
+int builtin_env(char **cmd, char **envp)
 {
-	int i = 0;
+	int i = 0, size = 0;
 
+	for (; cmd[size] != NULL; size++)
+		;
 	for (; envp[i] != NULL; i++)
 	{
 		_puts(envp[i]);
 		_puts("\n");
 	}
+	freeSarray(cmd, size);
 	return (1);
 }

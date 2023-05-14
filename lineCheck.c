@@ -24,12 +24,12 @@ int isDir(char *path)
  */
 int _isDigit(char *s)
 {
-	int i = 0;
+	int i = 0, j = 0;
 
-	for (; s[i] != '\0'; i++)
+	for (; s[i]; i++)
 	{
-		if (*s >= '0' && *s <= '9')
-			return 1;
+		if (s[i] < '0' || s[i] > '9')
+			return (0);
 	}
-	return 0;
+	return (1);
 }
