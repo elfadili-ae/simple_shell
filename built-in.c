@@ -40,7 +40,7 @@ int (*get_builtin(char *cmd))(char **, char **)
 
 	for (i = 0; bltin[i].name != NULL; i++)
 	{
-		  if (_strncmp(cmd, bltin[i].name, _strlen(bltin[i].name)) == 0)
+		if (_strcmp(cmd, bltin[i].name) == 0)
 			  return (bltin[i].f);
 	}
 	return (0);

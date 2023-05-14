@@ -24,7 +24,7 @@ int isDir(char *path)
  */
 int _isDigit(char *s)
 {
-	int i = 0, j = 0;
+	int i = 0;
 
 	for (; s[i]; i++)
 	{
