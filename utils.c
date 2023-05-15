@@ -12,6 +12,7 @@ ssize_t prompt(char **lptr, size_t *n, FILE *strm)
 
 	if (isatty(STDIN_FILENO))
 		_puts("$ ");
+
 	val = getline(lptr, n, strm);
 	if (val == 1)
 		return (0);

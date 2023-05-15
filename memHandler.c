@@ -26,9 +26,11 @@ void freeData(data_t *data)
 {
 	/** free data->cmd **/
 	freeSarray(data->cmd, data->cmdSize);
+	data->cmd = NULL;
 
 	/** free data->lineptr*/
 	free(data->lineptr);
+	data->lineptr = NULL;
 
 	/** free data->envp */
 

@@ -38,9 +38,9 @@ void interactive(UNUSED int ac, data_t *data)
 			Notfound(data);
 		if (flag == 1)
 		{
-			free(data->lineptr);
-			data->lineptr = NULL;
-			freeSarray(data->cmd, data->cmdSize);
+			free(exe);
+			exe = NULL;
+			freeData(data);
 		}
 	}
 	free(data->lineptr);
