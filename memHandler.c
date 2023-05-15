@@ -18,18 +18,36 @@ char *_memcpy(char *dest, char *src, unsigned int n)
 }
 
 /**
- * freeSarray -
+ * freeData -
  *
  *
  */
-void freeSarray(char **Sarray, int size)
+void freeData(data_t *data)
+{
+	/** free data->cmd **/
+	freeSarray(data->cmd, data->cmdSize);
+
+	/** free data->lineptr*/
+	free(data->lineptr);
+
+	/** free data->envp */
+
+}
+
+/**
+ *
+ *
+ *
+ *
+ */
+void freeSarray(char **arr, int size)
 {
 	int i;
 
 	for (i = 0; i < size; i++)
 	{
-		free(Sarray[i]);
-		Sarray[i] = NULL;
+		free(arr[i]);
+		arr[i] = NULL;
 	}
-	free(Sarray);
+	free(arr);
 }

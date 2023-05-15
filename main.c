@@ -5,10 +5,15 @@
  *
  *
  */
-int main(UNUSED int argc, UNUSED char *argv[], char *envp[])
+int main(UNUSED int argc, char *argv[], char *envp[])
 {
+	data_t data;
 
-	interactive(argc, argv, envp);
+	/*initialize data*/
+	data.progName = argv[0];
+	data.envp = envp;
+
+	interactive(argc, &data);
 
 	return (0);
 }

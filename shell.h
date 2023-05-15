@@ -1,22 +1,6 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#define DELIM " \t\n"
-#define UNUSED __attribute__((unused))
-
-/*extern char **environ;*/
-
-/*******built-in_struct**********/
-/**
- * builtin_t - built-ins name and function
- * @name: name of the built-in
- * @f: the built-in's function
- */
-typedef struct builtin_t {
-	char *name;
-	int (*f)(char **, char **);
-} builtin_t;
-
 /********Libraries***************/
 #include <stdio.h>
 #include <unistd.h>
@@ -29,32 +13,66 @@ typedef struct builtin_t {
 #include <sys/stat.h>
 #include <stdarg.h>
 
-/******modes_functions**********/
-void interactive(int argc, char *argv[], char *envp[]);
+#define DELIM " \t\n"
+#define UNUSED __attribute__((unused))
+
+
+/*******data_struct***************/
+/**
+ * data - struct holding program's data
+ * @progName: program's name
+ * @lineptr: line pointer
+ * @cmd: command line tokenized
+ * @envp: environment
+ */
+typedef struct data_t
+{
+	char *progName;
+	char *lineptr;
+	char **cmd;
+	int cmdSize;
+	int cmdCounter;
+	char **envp;
+} data_t;
+
+/*******built-in_struct************/
+/**
+ * builtin_t - built-ins name and function
+ * @name: name of the built-in
+ * @f: the built-in's function
+ */
+typedef struct builtin_t
+{
+	char *name;
+	int (*f)(data_t*);
+} builtin_t;
+
+/******MODE_FUNCTIONS**********/
+void interactive(int argc, data_t *data);
 void nonInteractive(void);
-void processHandler(char *exe, char **cmd, char *envp[]);
+void processHandler(char *exe, data_t *data);
 
-/*******Functions**************/
-ssize_t _getline(char **lptr, size_t *n, FILE *strm);
-char *_getenv(char *arg, char **envp);
-char *_which(char *cmd, char **envp);
+/*******FUNCTIONS**************/
+ssize_t prompt(char **lptr, size_t *n, FILE *strm);
+char *_getenv(char *var, data_t *data);
+char *_which(data_t *data);
 int isDir(char *path);
-void Notfound(char *labalena,char *cmd, int c);
+void Notfound(data_t *data);
 
-/*******built-in***************/
-int builtinCheck(char **arg, char **envp);
-int (*get_builtin(char *arg))(char**, char**);
-int builtin_exit(char **arg, char **envp);
-int builtin_env(char **arg, char **envp);
-int builtin_cd(char **arg, char **envp);
+/*******BUILT-IN***************/
+int builtinCheck(data_t *data);
+int (*get_builtin(char *arg))(data_t*);
+int builtin_exit(data_t *data);
+int builtin_env(data_t *data);
+int builtin_cd(data_t *data);
 
-/*******strtok*****************/
+/*********STRTOK***************/
 char **_strtok(char *str, const char *delim, int *size);
 int countTok(char *str, const char *delim);
 int tokLen(char *str, const char *delim, int index);
 int isDelim(char c, const char *delim);
 
-/********str_helpers***********/
+/********STR_HELPERS***********/
 void _puts(char *s);
 int _strlen(const char *s);
 int _strcmp(char *s1, char *s2);
@@ -63,10 +81,11 @@ char *_strcpy(char *dest, char *src);
 int _strchr2(char *s, char c);
 
 /*******MEMORY_USAGE***********/
-void freeSarray(char **Sarray, int size);
+void freeData(data_t *data);
+void freeSarray(char **arr, int size);
 char *_memcpy(char *dest, char *src, unsigned int n);
 
-/*******LINE_EXTRE_SPICY******/
+/*******MORE_HELPERS**********/
 int _isDigit(char *s);
 void print_int(int n);
 

@@ -5,44 +5,45 @@
  * @ac: arguments count
  * @av: arguments vector
  */
-void interactive(UNUSED int ac, char *av[], char *envp[])
+void interactive(UNUSED int ac, data_t *data)
 {
-	char *buffer = NULL, **cmd = NULL, *exe = NULL;
+	char *exe = NULL;
 	size_t size;
 	ssize_t line;
-	int cmd_size, flag = 0, isBuiltin = 0, Ecount = 0;
+	int cmd_size, flag = 0, isBuiltin = 0;
 
-	while ((line = _getline(&buffer, &size, stdin)) != -1)
+	while ((line = prompt(&data->lineptr, &size, stdin)) != -1)
 	{
-		Ecount++;
+		data->cmdCounter++;
 		if (line == 0)
 			continue;
 
-		cmd = _strtok(buffer, DELIM, &cmd_size);
-		isBuiltin = builtinCheck(cmd, envp); /*check if cmd is a built-in*/
+		data->cmd = _strtok(data->lineptr, DELIM, &cmd_size);
+		data->cmdSize = cmd_size;
+		isBuiltin = builtinCheck(data);
 		if (isBuiltin)
 			continue;
-		else if (cmd[0][0] == '/')
+		else if (data->cmd[0][0] == '/')
 		{
-			exe = cmd[0];
+			exe = data->cmd[0];
 			flag = 0;
 		} else
 		{
 			flag = 1;
-			exe = _which(cmd[0], envp);
+			exe = _which(data);
 		}
-		if (!isBuiltin && !isDir(buffer) && exe != NULL)
-		{
-			processHandler(exe, cmd, envp);
-		} else
-			Notfound(av[0], cmd[0], Ecount);
+		if (!isBuiltin && !isDir(data->cmd[0]) && exe != NULL)
+			processHandler(exe, data);
+		else
+			Notfound(data);
 		if (flag == 1)
-			free(exe);
-		free(buffer);
-		buffer = NULL;
-		freeSarray(cmd, cmd_size);
+		{
+			free(data->lineptr);
+			data->lineptr = NULL;
+			freeSarray(data->cmd, data->cmdSize);
+		}
 	}
-	free(buffer);
+	free(data->lineptr);
 }
 
 /**
@@ -50,7 +51,7 @@ void interactive(UNUSED int ac, char *av[], char *envp[])
  * @exe: name of the executable to run in the child process
  * @cmd: the command buffer
  */
-void processHandler(char *exe, char **cmd, char *envp[])
+void processHandler(char *exe, data_t *data)
 {
 	pid_t pid;
 
@@ -58,8 +59,10 @@ void processHandler(char *exe, char **cmd, char *envp[])
 	if (pid == 0)
 	{
 		/*child process*/
-		if (execve(exe, cmd, envp) == -1)
+		if (execve(exe, data->cmd, data->envp) == -1)
 		{
+			_puts(data->progName);
+			_puts(": ");
 			perror("execve");
 			exit(EXIT_FAILURE);
 		}
@@ -69,5 +72,4 @@ void processHandler(char *exe, char **cmd, char *envp[])
 		/*parent process*/
 		wait(NULL);
 	}
-
 }
