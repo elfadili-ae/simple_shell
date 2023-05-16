@@ -5,3 +5,4 @@ ls
 echo -------------
 
  ls
+ls /usr && ls /home

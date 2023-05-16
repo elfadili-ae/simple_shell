@@ -62,7 +62,6 @@ int builtin_cd(data_t *data)
 	{
 		perror("cd");
 	}
-	freeSarray(data->cmd, data->cmdSize);
 	return (1);
 }
 
@@ -80,6 +79,5 @@ int builtin_env(data_t *data)
 		_puts(data->envp[i]);
 		_puts("\n");
 	}
-	freeSarray(data->cmd, data->cmdSize);
 	return (1);
 }

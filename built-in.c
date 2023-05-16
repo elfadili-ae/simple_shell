@@ -6,11 +6,11 @@
  *
  *
  */
-int builtinCheck(data_t *data)
+int builtinCheck(data_t *data, char *cmd)
 {
 	int (*fun)(data_t*);
 
-	fun = get_builtin(data->cmd[0]);
+	fun = get_builtin(cmd);
 	if (fun)
 	{
 		fun(data);

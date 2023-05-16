@@ -49,18 +49,23 @@ typedef struct builtin_t
 
 /******MODE_FUNCTIONS**********/
 void interactive(int argc, data_t *data);
-void nonInteractive(void);
-void processHandler(char *exe, data_t *data);
+void processHandler(data_t *data);
+void forking(data_t *data, char **cmd, char *exe, int *stat);
 
 /*******FUNCTIONS**************/
 ssize_t prompt(char **lptr, size_t *n, FILE *strm);
 char *_getenv(char *var, data_t *data);
-char *_which(data_t *data);
+char *_which(char *cmd, data_t *data);
+char *exeFixer(char *cmd, data_t *data);
 int isDir(char *path);
 void Notfound(data_t *data);
-
+void operatorChecker(char *cmd, int *and, int *or, int *semiCo);
+int commandsCounter(data_t *data);
+char *opSep(data_t *data);
+void commentHandler(data_t *data);
+int tokCompare(char *tok, UNUSED char *ptr, int *sep, int *flag);
 /*******BUILT-IN***************/
-int builtinCheck(data_t *data);
+int builtinCheck(data_t *data, char *cmd);
 int (*get_builtin(char *arg))(data_t*);
 int builtin_exit(data_t *data);
 int builtin_env(data_t *data);

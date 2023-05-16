@@ -50,10 +50,9 @@ ssize_t prompt(char **lptr, size_t *n, FILE *strm)
  * @cmd: filename to find it's path
  * Return: the file's path | NULL (not found)
  */
-char *_which(data_t *data)
+char *_which(char *cmd, data_t *data)
 {
 	char *path, **pathToken, *buff = NULL;
-	char *cmd = data->cmd[0];
 	int i, size, l1 = _strlen(cmd), l2;
 
 	path = _getenv("PATH=", data);
@@ -73,7 +72,7 @@ char *_which(data_t *data)
 
 		_memcpy(buff, pathToken[i], l2);
 		buff[_strlen(pathToken[i])] = '/';
-		_memcpy(buff + _strlen(pathToken[i]) + 1, cmd, _strlen(cmd));
+		_memcpy(buff + _strlen(pathToken[i]) + 1, cmd, l1);
 		buff[l1 + l2 + 1] = '\0';
 		if (0 == access(buff, X_OK))
 		{
