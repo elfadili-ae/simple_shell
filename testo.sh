@@ -1,3 +1,5 @@
+#:/bin/bash
+
 ls
 echo -------------
 
@@ -9,6 +11,7 @@ ls /usr && ls /home
 echo -------------
 echo hi && echo people && echo succeeded!
 echo -------------
-echo dont || echo finish this sentence
+echo don\'t || echo finish this sentence
 echo -------------
 ls /home && ls /home || echo noooooooooooo && echo woooooow!!!
+

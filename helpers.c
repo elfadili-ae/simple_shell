@@ -43,23 +43,40 @@ int commandsCounter(data_t *data)
  *
  *
  */
-int tokCompare(UNUSED char *tok, UNUSED char *ptr, int *sep, int *flag)
+int tokCompare(char *tok, int *sep, int *flag)
 {
 	if (_strcmp(tok, ";") == 0)
 	{
-		*sep |= 1;
+		*sep = 1;
 		return (1);
 	}
 	else if (_strcmp(tok, "&&") == 0)
 	{
-		*sep |= 2;
+		*sep = 2;
 		return (1);
 	}
 	else if (_strcmp(tok, "||") == 0)
 	{
-		*sep |= 4;
+		*sep = 4;
 		return (1);
 	}
 	(void)flag;
 	return (0);
+}
+
+/**
+ *
+ *
+ *
+ */
+int tokChecker(char *tok)
+{
+        if (_strcmp(tok, ";") == 0)
+                return (1);
+        else if (_strcmp(tok, "&&") == 0)
+                return (1);
+        else if (_strcmp(tok, "||") == 0)
+                return (1);
+
+        return (0);
 }

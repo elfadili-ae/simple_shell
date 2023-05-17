@@ -33,25 +33,24 @@ void interactive(UNUSED int ac, data_t *data)
  */
 void processHandler(data_t *data)
 {
-	int stat = 0, i, j, f = 0, cmdCnt = 1, isBI = 0, pos = 0, cmp, sep = 0;
+	int stat = 0, i, j, k = 0, f = 0, Count, isBI = 0, pos = 0, cmp = 0, sep = 0;
+	int cmp2;
 	char *exe = NULL, *ptr[64];
 
-	cmdCnt = commandsCounter(data);
-	for (i = 0; i < cmdCnt; i++)
+	Count = commandsCounter(data);
+	for (i = 0; i < Count; i++)
 	{
 		for (j = 0; data->cmd[pos + j] != NULL; j++)
 		{
-			if (i < cmdCnt - 1)
+			if (i < Count - 1)
 			{
-				cmp = tokCompare(data->cmd[pos + j], ptr[j], &sep, &f);
-				if (cmp != 0)
+				cmp2 = tokChecker(data->cmd[pos + j]);
+				if (cmp2 != 0)
 					break;
-			}
-			ptr[j] = data->cmd[pos + j];
-		}
-		ptr[j] = NULL;
+			} ptr[j] = data->cmd[pos + j];
+		} ptr[j] = NULL;
 
-		if ( i == 0 || (stat == 0 && cmp == 0) || ((sep  & 2) && stat == 0)
+		if (i == 0 || (stat == 0 && cmp == 0) || ((sep  & 2) && stat == 0)
 		     || ((sep & 4) && stat != 0) || (sep & 1))
 		{
 			isBI = builtinCheck(data, ptr[0]);
@@ -65,6 +64,12 @@ void processHandler(data_t *data)
 				else
 					Notfound(data);
 			}
+		}
+		for (sep = 0; data->cmd[pos + k] != NULL; k++)
+		{
+			cmp = tokCompare(data->cmd[pos + k], &sep, &f);
+			if (cmp != 0)
+				break;
 		}
 		pos += j + 1;
 	}
@@ -87,7 +92,7 @@ void forking(data_t *data, char **cmd, char *exe, int *stat)
 		if (*stat == -1)
 			perror(exe), exit(EXIT_FAILURE);
 	}
-	else /* お母さん　*/
+	else /* 母 */
 	{
 		waitpid(pid, stat, 0);
 		free(exe);

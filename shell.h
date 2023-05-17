@@ -63,7 +63,9 @@ void operatorChecker(char *cmd, int *and, int *or, int *semiCo);
 int commandsCounter(data_t *data);
 char *opSep(data_t *data);
 void commentHandler(data_t *data);
-int tokCompare(char *tok, UNUSED char *ptr, int *sep, int *flag);
+int tokCompare(char *tok, int *sep, int *flag);
+int tokChecker(char *tok);
+
 /*******BUILT-IN***************/
 int builtinCheck(data_t *data, char *cmd);
 int (*get_builtin(char *arg))(data_t*);
