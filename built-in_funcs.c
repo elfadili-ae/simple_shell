@@ -5,42 +5,39 @@
  *
  *
  */
-int builtin_exit(char **cmd, UNUSED char **envp)
+int builtin_exit(data_t *data)
 {
 
-	int size = 0, code;
-
-	for (; cmd[size] != NULL; size++)
-		;
+	int size = data->cmdSize, code;
 
 	if (size == 1)
 	{
-		freeSarray(cmd, size);
+		freeData(data);
 		exit(EXIT_SUCCESS);
 	}
 	else if (size == 2)
 	{
-		if (_isDigit(cmd[1]))
+		if (_isDigit(data->cmd[1]))
 		{
-			code = atoi(cmd[1]);
-			freeSarray(cmd, size);
+			code = atoi(data->cmd[1]);
+			freeData(data);
 			exit(code);
 		}
 		else
 		{
 			_puts("exit: numeric argument required\n");
-			freeSarray(cmd, size);
+			freeData(data);
 			exit(2);
 		}
 	}
 	else
 	{
-		if(_isDigit(cmd[1]))
+		if(_isDigit(data->cmd[1]))
 			_puts("exit: too many arguments\n");
 		else
 		{
-			printf("usage: exit [argument]\n");
-			freeSarray(cmd, size);
+			printf("Usage: exit [argument]\n");
+			freeData(data);
 			exit(2);
 		}
 	}
@@ -51,23 +48,20 @@ int builtin_exit(char **cmd, UNUSED char **envp)
  *
  *
  */
-int builtin_cd(char **cmd, UNUSED char **envp)
+int builtin_cd(data_t *data)
 {
 	int status;
-	int size = 0;
+	int size = data->cmdSize;
 
-	for (; cmd[size] != NULL; size++)
-		;
-	if (!cmd[1])
+	if (size == 1)
 		status = chdir("/home");
 	else
-		status = chdir(cmd[1]);
+		status = chdir(data->cmd[1]);
 
 	if (status == -1)
 	{
 		perror("cd");
 	}
-	freeSarray(cmd, size);
 	return (1);
 }
 
@@ -76,17 +70,14 @@ int builtin_cd(char **cmd, UNUSED char **envp)
  *
  *
  */
-int builtin_env(char **cmd, char **envp)
+int builtin_env(data_t *data)
 {
-	int i = 0, size = 0;
+	int i = 0;
 
-	for (; cmd[size] != NULL; size++)
-		;
-	for (; envp[i] != NULL; i++)
+	for (; data->envp[i] != NULL; i++)
 	{
-		_puts(envp[i]);
+		_puts(data->envp[i]);
 		_puts("\n");
 	}
-	freeSarray(cmd, size);
 	return (1);
 }

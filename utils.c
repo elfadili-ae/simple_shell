@@ -1,17 +1,18 @@
 #include "shell.h"
 /**
- * _getline - get the command from the stream
+ * prompt - get the command from the stream
  * @lptr: pointer to the buffer where to store string
  * @n: pointer to the size of the string
  * @strm: the stream
  * Return: number of characters read | -1 (failed)
  */
-ssize_t _getline(char **lptr, size_t *n, FILE *strm)
+ssize_t prompt(char **lptr, size_t *n, FILE *strm)
 {
 	ssize_t val;
 
 	if (isatty(STDIN_FILENO))
 		_puts("$ ");
+
 	val = getline(lptr, n, strm);
 	if (val == 1)
 		return (0);
@@ -33,16 +34,28 @@ ssize_t _getline(char **lptr, size_t *n, FILE *strm)
 }
 
 /**
+ *
+ *
+ *
+ *
+ */
+/*ssize_t _getline(char **lptr, size_t *n, FILE *strm)
+{
+	char buffer[BUFFSIZE];
+
+}*/
+
+/**
  * _which - find the path of a filename
  * @cmd: filename to find it's path
  * Return: the file's path | NULL (not found)
  */
-char *_which(char *cmd, char **envp)
+char *_which(char *cmd, data_t *data)
 {
 	char *path, **pathToken, *buff = NULL;
 	int i, size, l1 = _strlen(cmd), l2;
 
-	path = _getenv("PATH=", envp);
+	path = _getenv("PATH=", data);
 	if (path == NULL)
 		return (NULL);
 
@@ -59,7 +72,7 @@ char *_which(char *cmd, char **envp)
 
 		_memcpy(buff, pathToken[i], l2);
 		buff[_strlen(pathToken[i])] = '/';
-		_memcpy(buff + _strlen(pathToken[i]) + 1, cmd, _strlen(cmd));
+		_memcpy(buff + _strlen(pathToken[i]) + 1, cmd, l1);
 		buff[l1 + l2 + 1] = '\0';
 		if (0 == access(buff, X_OK))
 		{
@@ -71,18 +84,19 @@ char *_which(char *cmd, char **envp)
 	freeSarray(pathToken, size);
 	return (NULL);
 }
+
 /**
  *
  *
  */
-void Notfound(char *argv, char *cmd, int c)
+void Notfound(data_t *data)
 {
 
-	_puts(argv);
+	_puts(data->progName);
 	_puts(": ");
 	fflush(stdout);
-	print_int(c);
+	print_int(data->cmdCounter);
 	_puts(": ");
-	_puts(cmd);
+	_puts(data->cmd[0]);
 	_puts(": not found\n");
 }
