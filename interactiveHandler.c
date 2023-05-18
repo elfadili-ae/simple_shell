@@ -9,10 +9,8 @@ void interactive(int ac, data_t *data)
 {
 	int size, line, fd;
 
-	if (ac == 2)
+	if (!data->modo && ac == 2)
 		fd = openFile(data);
-	else
-		fd = STDIN_FILENO;
 
 	while ((line = prompt(data, &size, fd)) != -1 || data->lineptr)
 	{
@@ -28,10 +26,9 @@ void interactive(int ac, data_t *data)
 		{
 			processHandler(data);
 			freeData(data);
-			 printf("----errno 3 [%d]\n", errno);
 		}
 	}
-	if (ac == 2)
+	if (!data->modo && ac == 2)
 		closeFile(data, fd);
 	free(data->lineptr);
 }
@@ -44,14 +41,13 @@ void interactive(int ac, data_t *data)
  */
 void processHandler(data_t *data)
 {
-	int stat = 0, i, j, k = 0, f = 0, Count, isBI = 0, pos = 0, cmp = 0, sep = 0;
-	int cmp2;
+	int stat = 0, i, j, k = 0, f = 0, Count, isBI = 0, pos = 0;
+	int cmp2, cmp = 0, sep = 0;
 	char *exe = NULL, *ptr[64];
-	printf("----errno 1 [%d]\n", errno);
+
 	Count = commandsCounter(data);
 	for (i = 0; i < Count; i++)
 	{
-		printf("----errno 2 [%d]\n", errno);
 		for (j = 0; data->cmd[pos + j] != NULL; j++)
 		{
 			if (i < Count - 1)
@@ -61,7 +57,7 @@ void processHandler(data_t *data)
 					break;
 			} ptr[j] = data->cmd[pos + j];
 		} ptr[j] = NULL;
-		printf("----errno 3 [%d]\n", errno);
+
 		if (i == 0 || (stat == 0 && cmp == 0) || ((sep  & 2) && stat == 0)
 		     || ((sep & 4) && stat != 0) || (sep & 1))
 		{
@@ -77,7 +73,7 @@ void processHandler(data_t *data)
 					Notfound(data);
 			}
 		}
-		for (sep = 0; data->cmd[pos + k] != NULL; k++)
+		for (sep = 0; i < Count - 1 && data->cmd[pos + k] != NULL; k++)
 		{
 			cmp = tokCompare(data->cmd[pos + k], &sep, &f);
 			if (cmp != 0)
@@ -109,7 +105,7 @@ void forking(data_t *data, char **cmd, char *exe, int *stat)
 		wait(stat);
 		if (WIFEXITED(*stat))
 			errno = WEXITSTATUS(*stat);
-		printf("----errno 0 [%d]\n", errno);
+
 		if (data->flag)
 			free(exe);
 		exe = NULL;

@@ -10,6 +10,12 @@ int main(UNUSED int argc, char *argv[], char *envp[])
 {
 	data_t data;
 
+
+	if (isatty(STDIN_FILENO) && argc == 1)
+		data.modo = 1;
+	else
+		data.modo = 0;
+
 	errno = 0;
 
 	/*initialize data*/

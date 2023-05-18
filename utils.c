@@ -13,29 +13,20 @@ char *_which(char *cmd, data_t *data);
 int prompt(data_t *data, int *n, int stream)
 {
 	int val;
-
-	if (isatty(stream))
+	if (data->modo)
 		_puts("$ ", 1);
 
 	val = _getLine(data, n, stream);
 
-	if (!isatty(stream) && val == 0)
-		exit(0);
+	if (!data->modo && val == 0)
+		exit(errno);
+
 	if (val == 1)
 		return (0);
 
 	if (val == -1)
 	{
-		if (errno == EINVAL)
-		{
-			perror("Error:");
-			exit(22);
-		}
-		else if (errno == ENOMEM)
-		{
-			perror("Error:");
-			exit(12);
-		}
+		exit(EXIT_FAILURE);
 	}
 	return (val);
 }
@@ -94,8 +85,7 @@ void Notfound(data_t *data)
 	_puts(": ", 2);
 	_puts(data->cmd[0], 2);
 	_puts(": not found\n", 2);
-/*	errno = 127;*/
 
-	if (!isatty(STDIN_FILENO))
+	if (!data->modo)
 		exit(127);
 }

@@ -38,6 +38,7 @@ typedef struct data_t
 	int cmdCounter;
 	char **envp;
 	int flag;
+	int modo;
 } data_t;
 
 /*******built-in_struct************/
