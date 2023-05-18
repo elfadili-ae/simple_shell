@@ -1,0 +1,49 @@
+#include "shell.h"
+
+/**
+ * _getLine - read line from the stream
+ * @data: data holder
+ * @size: size of the line
+ * @stream: source to read from
+ * Return: character's read | -1 (failed)
+ */
+int _getLine(data_t *data, int *size, int stream)
+{
+	int i, rd, c = 0;
+	char *tmp;
+
+	if (data->lineptr == NULL)
+		*size = 0;
+
+	for (i = 0; c != EOF && c != '\n'; i++)
+	{
+		if (i >= *size)
+		{
+			*size += BUFFSIZE;
+			tmp = _realloc(data->lineptr, *size - BUFFSIZE, *size);
+			if (tmp == NULL)
+			{
+				free(data->lineptr), data->lineptr = NULL;
+				return (-1);
+			} data->lineptr = tmp;
+		}
+
+		rd = read(stream, &c, 1);
+		if (rd == 0)
+			break; /*/c = '\n';*/
+
+		if (rd == -1)
+		{
+			free(data->lineptr), data->lineptr = NULL;
+			return (-1);
+		}
+		if (c == '\n')
+		{
+			data->lineptr[(i++)] = c;
+			break;
+		}
+		data->lineptr[i] = c;
+	}
+	data->lineptr[i] = '\0';
+	return (i);
+}

@@ -4,9 +4,9 @@
  * _puts - print a string followed by a line
  *@s: pointer to a string
  */
-void _puts(char *s)
+void _puts(char *s, int stream)
 {
-	write(1, s, _strlen(s));
+	write(stream, s, _strlen(s));
 }
 
 /**
@@ -29,7 +29,7 @@ int _strlen(const char *s)
  *
  *
  */
-void print_int(int n)
+void print_int(int n, int stream)
 {
 	char buffer[20];
 	int i = 0;
@@ -43,5 +43,5 @@ void print_int(int n)
 	if (is_negative)
 		buffer[i++] = '-';
 	while (i > 0)
-		write(1, &buffer[--i], 1);
+		write(stream, &buffer[--i], 1);
 }

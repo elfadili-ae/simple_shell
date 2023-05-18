@@ -13,7 +13,7 @@ int builtin_exit(data_t *data)
 	if (size == 1)
 	{
 		freeData(data);
-		exit(EXIT_SUCCESS);
+		exit(errno);
 	}
 	else if (size == 2)
 	{
@@ -25,7 +25,7 @@ int builtin_exit(data_t *data)
 		}
 		else
 		{
-			_puts("exit: numeric argument required\n");
+			_puts("exit: numeric argument required\n", 2);
 			freeData(data);
 			exit(2);
 		}
@@ -33,10 +33,10 @@ int builtin_exit(data_t *data)
 	else
 	{
 		if(_isDigit(data->cmd[1]))
-			_puts("exit: too many arguments\n");
+			_puts("exit: too many arguments\n", 2);
 		else
 		{
-			printf("Usage: exit [argument]\n");
+			_puts("Usage: exit [argument]\n", 2);
 			freeData(data);
 			exit(2);
 		}
@@ -76,8 +76,8 @@ int builtin_env(data_t *data)
 
 	for (; data->envp[i] != NULL; i++)
 	{
-		_puts(data->envp[i]);
-		_puts("\n");
+		_puts(data->envp[i], 1);
+		_puts("\n", 1);
 	}
 	return (1);
 }

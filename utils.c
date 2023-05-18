@@ -1,4 +1,8 @@
 #include "shell.h"
+
+int prompt(data_t *data, int *n, int stream);
+char *_which(char *cmd, data_t *data);
+
 /**
  * prompt - get the command from the stream
  * @lptr: pointer to the buffer where to store string
@@ -6,14 +10,17 @@
  * @strm: the stream
  * Return: number of characters read | -1 (failed)
  */
-ssize_t prompt(char **lptr, size_t *n, FILE *strm)
+int prompt(data_t *data, int *n, int stream)
 {
-	ssize_t val;
+	int val;
 
-	if (isatty(STDIN_FILENO))
-		_puts("$ ");
+	if (isatty(stream))
+		_puts("$ ", 1);
 
-	val = getline(lptr, n, strm);
+	val = _getLine(data, n, stream);
+
+	if (!isatty(stream) && val == 0)
+		exit(0);
 	if (val == 1)
 		return (0);
 
@@ -32,18 +39,6 @@ ssize_t prompt(char **lptr, size_t *n, FILE *strm)
 	}
 	return (val);
 }
-
-/**
- *
- *
- *
- *
- */
-/*ssize_t _getline(char **lptr, size_t *n, FILE *strm)
-{
-	char buffer[BUFFSIZE];
-
-}*/
 
 /**
  * _which - find the path of a filename
@@ -92,11 +87,15 @@ char *_which(char *cmd, data_t *data)
 void Notfound(data_t *data)
 {
 
-	_puts(data->progName);
-	_puts(": ");
-	fflush(stdout);
-	print_int(data->cmdCounter);
-	_puts(": ");
-	_puts(data->cmd[0]);
-	_puts(": not found\n");
+	_puts(data->progName, 2);
+	_puts(": ", 2);
+	fflush(stderr);
+	print_int(data->cmdCounter, 2);
+	_puts(": ", 2);
+	_puts(data->cmd[0], 2);
+	_puts(": not found\n", 2);
+/*	errno = 127;*/
+
+	if (!isatty(STDIN_FILENO))
+		exit(127);
 }
