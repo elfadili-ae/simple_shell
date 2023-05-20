@@ -6,7 +6,7 @@
  * @argv: argument vector
  * @envp: environment
  */
-int main(UNUSED int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[], char *envp[])
 {
 	data_t data;
 
@@ -24,6 +24,7 @@ int main(UNUSED int argc, char *argv[], char *envp[])
 	data.envp = envp;
 	data.lineptr = NULL;
 	data.cmd = NULL;
+	data.cmdSize = 0;
 	data.cmdCounter = 0;
 
 	interactive(argc, &data);

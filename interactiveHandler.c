@@ -7,7 +7,7 @@
  */
 void interactive(int ac, data_t *data)
 {
-	int size, line, fd;
+	int size, line, fd = 0;
 
 	if (!data->modo && ac == 2)
 		fd = openFile(data);
@@ -21,6 +21,7 @@ void interactive(int ac, data_t *data)
 		commentHandler(data);
 		data->lineptr = opSep(data);
 		data->cmd = _strtok(data->lineptr, DELIM, &data->cmdSize);
+		specialVarHandler(data);
 
 		if (data->cmdSize > 0)
 		{
@@ -77,7 +78,10 @@ void processHandler(data_t *data)
 		{
 			cmp = tokCompare(data->cmd[pos + k], &sep, &f);
 			if (cmp != 0)
+			{
+				k--;
 				break;
+			}
 		}
 		pos += j + 1;
 	}

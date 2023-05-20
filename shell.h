@@ -39,6 +39,7 @@ typedef struct data_t
 	char **envp;
 	int flag;
 	int modo;
+	char *pewd;
 } data_t;
 
 /*******built-in_struct************/
@@ -67,10 +68,19 @@ int isDir(char *path);
 void Notfound(data_t *data);
 void operatorChecker(char *cmd, int *and, int *or, int *semiCo);
 int commandsCounter(data_t *data);
-char *opSep(data_t *data);
 void commentHandler(data_t *data);
 int tokCompare(char *tok, int *sep, int *flag);
 int tokChecker(char *tok);
+
+/******separator***************/
+char *opSep(data_t *data);
+void specialVarChecker(data_t *data);
+void opChar(char *line, char *nline, int *idx, int *jmp);
+void specialChar(char *line, char *nline, int *i, int *jmp);
+
+/*******$_handler**************/
+void specialVarHandler(data_t *data);
+void getVarValue(data_t *data, int i);
 
 /******file_handlers***********/
 int openFile(data_t *data);
@@ -109,5 +119,6 @@ char *_memcpy(char *dest, char *src, unsigned int n);
 /*******MORE_HELPERS**********/
 int _isDigit(char *s);
 void print_int(int n, int stream);
+void itobuff(char *buff, int val);
 
 #endif

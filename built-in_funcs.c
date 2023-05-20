@@ -1,9 +1,9 @@
 #include "shell.h"
 
 /**
- *
- *
- *
+ * builtin_exit - exit the program
+ * @data: data holder
+ * Return: 1 | exit (errno)
  */
 int builtin_exit(data_t *data)
 {
@@ -25,18 +25,14 @@ int builtin_exit(data_t *data)
 		}
 		else
 		{
-			_puts("exit: numeric argument required\n", 2);
-			freeData(data);
-			exit(2);
-		}
-	}
-	else
-	{
-		if(_isDigit(data->cmd[1]))
-			_puts("exit: too many arguments\n", 2);
-		else
-		{
-			_puts("Usage: exit [argument]\n", 2);
+			_puts(data->progName, 2);
+			_puts(": ", 2);
+			print_int(data->cmdCounter, 2);
+			_puts(": ", 2);
+			_puts(data->cmd[0], 2);
+			_puts(": Illegal number: ", 2);
+			_puts(data->cmd[1], 2);
+			_puts("\n", 2);
 			freeData(data);
 			exit(2);
 		}
@@ -50,25 +46,38 @@ int builtin_exit(data_t *data)
  */
 int builtin_cd(data_t *data)
 {
-	int status;
-	int size = data->cmdSize;
+	char *sweetHome = _getenv("HOME=", data);
+	char *pwd = _getenv("PWD=", data);
+	int status, size = data->cmdSize;
 
 	if (size == 1)
-		status = chdir("/home");
-	else
-		status = chdir(data->cmd[1]);
+	{
+		status = chdir(sweetHome);
+	}
+	else if (size == 2)
+	{
+		if (strcmp(data->cmd[1], "-") == 0)
+		{
+			_puts(pwd, 1);
+			_puts(" go to pwd\n", 1);
+		}
+		else
+			status = chdir(data->cmd[1]);
+	}
 
 	if (status == -1)
 	{
-		perror("cd");
+		_puts("cd: failed\n", 2);
+		exit(128);
+
 	}
 	return (1);
 }
 
 /**
- * builtin_env
- *
- *
+ * builtin_env - print the environement variables
+ * @data: data holder
+ * Return: 1 (called)
  */
 int builtin_env(data_t *data)
 {

@@ -1,5 +1,9 @@
 #include "shell.h"
 
+void _puts(char *s, int stream);
+int _strlen(const char *s);
+void print_int(int n, int stream);
+
 /**
  * _puts - print a string followed by a line
  *@s: pointer to a string

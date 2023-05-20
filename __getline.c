@@ -9,8 +9,8 @@
  */
 int _getLine(data_t *data, int *size, int stream)
 {
-	int i, rd, c = 0;
-	char *tmp;
+	int i = 0, rd = 0;
+	char c = '\0', *tmp = NULL;
 
 	if (data->lineptr == NULL)
 		*size = 0;
@@ -26,7 +26,6 @@ int _getLine(data_t *data, int *size, int stream)
 				return (-1);
 			} data->lineptr = tmp;
 		}
-
 		rd = read(stream, &c, 1);
 		if (rd == 0)
 			break; /*/c = '\n';*/
@@ -43,6 +42,7 @@ int _getLine(data_t *data, int *size, int stream)
 		}
 		data->lineptr[i] = c;
 	}
+
 	data->lineptr[i] = '\0';
 	return (i);
 }

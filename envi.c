@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- *
+ * _getenv - get envioronment variables value
  *
  *
  */

@@ -80,7 +80,6 @@ void Notfound(data_t *data)
 
 	_puts(data->progName, 2);
 	_puts(": ", 2);
-	fflush(stderr);
 	print_int(data->cmdCounter, 2);
 	_puts(": ", 2);
 	_puts(data->cmd[0], 2);
