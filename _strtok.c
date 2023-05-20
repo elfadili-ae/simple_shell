@@ -14,6 +14,8 @@ char **_strtok(char *str, const char *delim, int *size)
 		return (NULL);
 
 	*size = countTok(str, delim);
+	if (*size == 0)
+		return (NULL);
 	arrtok = malloc(sizeof(char*) * (*size + 1));
 	if (arrtok == NULL)
 		return (NULL);
@@ -37,8 +39,7 @@ char **_strtok(char *str, const char *delim, int *size)
 			j++;
 		}
 		arrtok[i][k] = '\0';
-	}
-	arrtok[i] = NULL;
+	} arrtok[i] = NULL;
 	return (arrtok);
 }
 

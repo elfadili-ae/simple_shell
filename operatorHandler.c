@@ -8,16 +8,20 @@
 char *opSep(data_t *data)
 {
 	int i, j, len, newlen, opCount = 0, jmp;
-	char op[] = {'|', '&', ';'}, *nline, *line = data->lineptr;
+	char op[] = {'|', '&', ';', '$'}, *nline, *line = data->lineptr;
 
 	len = strlen(line);
-	for (j = 0; j < 3; j++)
+	for (j = 0; j < 4; j++)
 		for (i = 0; line[i]; i++)
 		{
 			if (j < 2 && line[i] == op[j] && line[i + 1] == op[j])
 				opCount++;
-			if (j == 2 && line[i] == op[j])
+			if (j >= 2 && line[i] == op[j])
+			{
+				if (op[j] == '$')
+					i++;
 				opCount++;
+			}
 		}
 	if (opCount == 0)
 		return (line);
@@ -26,27 +30,80 @@ char *opSep(data_t *data)
 
 	for (i = 0, jmp = 0; i < len; i++)
 	{
-		if (line[i] == op[0] && line[i + 1] == op[0])
-		{
-			nline[i + (jmp++)] = ' ', nline[(i++) + jmp] = op[0];
-			nline[(i++) + jmp] = op[0], nline[i + (jmp++)] = ' ';
-		}
-		if (line[i] == op[1] && line[i + 1] == op[1])
-		{
-			nline[i + (jmp++)] = ' ', nline[(i++) + jmp] = op[1];
-			nline[(i++) + jmp] = op[1], nline[i + (jmp++)] = ' ';
-		}
+		opChar(line, nline, &i, &jmp);
 
-		if (line[i] == op[2])
-		{
-			nline[i + (jmp++)] = ' ', nline[(i++) + jmp] = op[2];
-			nline[i + (jmp++)] = ' ';
-		}
+		if (line[i] == op[3])
+			specialChar(line, nline, &i, &jmp);
+
 		nline[i + jmp] = line[i];
 	}
 	nline[i + jmp] = '\0';
 	free(line);
 	return (nline);
+}
+
+/**
+ * opChar - separate && || and ; with spaces
+ * @line: command buffer
+ * @nline: new buffer
+ * @jmp: fix the nline index
+ */
+void opChar(char *line, char *nline, int *idx, int *jmp)
+{
+	int i = *idx, j = *jmp;
+
+	if (line[i] == '|' && line[i + 1] == '|')
+	{
+		nline[i + (j++)] = ' ', nline[(i++) + j] = '|';
+		nline[(i++) + j] = '|', nline[i + (j++)] = ' ';
+	}
+	if (line[i] == '&' && line[i + 1] == '&')
+	{
+		nline[i + (j++)] = ' ', nline[(i++) + j] = '&';
+		nline[(i++) + j] = '&', nline[i + (j++)] = ' ';
+	}
+	if (line[i] == ';')
+	{
+		nline[i + (j++)] = ' ', nline[(i++) + j] = ';';
+		nline[i + (j++)] = ' ';
+	}
+	*idx = i;
+	*jmp = j;
+}
+/**
+ * specialChar - separate special char and the variable with spaces
+ * @line: command buffer
+ * @nline: new buffer
+ * @idx: buffer index
+ * @jmp: fix the nline index
+ */
+void specialChar(char *line, char *nline, int *idx, int *jmp)
+{
+	int i = *idx, j = *jmp;
+
+	nline[i + (j++)] = ' ';
+	if (line[i + 1] == '$')
+	{
+		nline[(i++) + j] = '$';
+		nline[(i++) + j] = '$';
+	}
+	else if (line[i + 1] == '?')
+	{
+		nline[(i++) + j] = '$';
+		nline[(i++) + j] = '?';
+	}
+	else
+	{
+		for (; line[i] != ' ' && line[i] != '\n' && line[i] != '&'
+			     && line[i] != '|' && line[i] != ';'
+			     && line[i] != '$'&& line[i] != '\0'; i++)
+		{
+			nline[i + j] = line[i];
+		}
+	}
+	nline[i + (j++)] = ' ';
+	*idx = i;
+	*jmp = j;
 }
 
 /**

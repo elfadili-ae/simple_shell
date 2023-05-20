@@ -5,23 +5,32 @@
  * @ac: arguments count
  * @av: arguments vector
  */
-void interactive(UNUSED int ac, data_t *data)
+void interactive(int ac, data_t *data)
 {
-	size_t size;
-	ssize_t line;
+	int size, line, fd = 0;
 
-	while ((line = prompt(&data->lineptr, &size, stdin)) != -1)
+	if (!data->modo && ac == 2)
+		fd = openFile(data);
+
+	while ((line = prompt(data, &size, fd)) != -1 || data->lineptr)
 	{
 		data->cmdCounter++;
 		if (line == 0)
 			continue;
 
+		commentHandler(data);
 		data->lineptr = opSep(data);
 		data->cmd = _strtok(data->lineptr, DELIM, &data->cmdSize);
+		specialVarHandler(data);
 
-		processHandler(data);
-		freeData(data);
+		if (data->cmdSize > 0)
+		{
+			processHandler(data);
+			freeData(data);
+		}
 	}
+	if (!data->modo && ac == 2)
+		closeFile(data, fd);
 	free(data->lineptr);
 }
 
@@ -33,8 +42,8 @@ void interactive(UNUSED int ac, data_t *data)
  */
 void processHandler(data_t *data)
 {
-	int stat = 0, i, j, k = 0, f = 0, Count, isBI = 0, pos = 0, cmp = 0, sep = 0;
-	int cmp2;
+	int stat = 0, i, j, k = 0, f = 0, Count, isBI = 0, pos = 0;
+	int cmp2, cmp = 0, sep = 0;
 	char *exe = NULL, *ptr[64];
 
 	Count = commandsCounter(data);
@@ -65,11 +74,14 @@ void processHandler(data_t *data)
 					Notfound(data);
 			}
 		}
-		for (sep = 0; data->cmd[pos + k] != NULL; k++)
+		for (sep = 0; i < Count - 1 && data->cmd[pos + k] != NULL; k++)
 		{
 			cmp = tokCompare(data->cmd[pos + k], &sep, &f);
 			if (cmp != 0)
+			{
+				k--;
 				break;
+			}
 		}
 		pos += j + 1;
 	}
@@ -94,8 +106,12 @@ void forking(data_t *data, char **cmd, char *exe, int *stat)
 	}
 	else /* 母 */
 	{
-		waitpid(pid, stat, 0);
-		free(exe);
+		wait(stat);
+		if (WIFEXITED(*stat))
+			errno = WEXITSTATUS(*stat);
+
+		if (data->flag)
+			free(exe);
 		exe = NULL;
 	}
 }

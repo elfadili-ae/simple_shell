@@ -10,10 +10,16 @@ char *exeFixer(char *cmd, data_t *data)
 {
 	char *exe;
 
-	if (cmd[0] == '/')
+	if (cmd[0] == '/' || cmd[0] == '.')
+	{
+		data->flag = 0;
 		exe = cmd;
+	}
 	else
+	{
+		data->flag = 1;
 		exe = _which(cmd, data);
+	}
 
 	return (exe);
 }
