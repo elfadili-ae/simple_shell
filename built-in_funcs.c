@@ -100,33 +100,35 @@ int builtin_env(data_t *data, UNUSED int idx)
  */
 int builtin_setenv(data_t *data, int idx)
 {
-	int i, j, k, len;
-	char *tmp = NULL;
+	int i, len;
+	char flag = 0;
 
 	if (data->cmd[idx + 1] != NULL && data->cmd[idx + 2] != NULL)
 	{
-		if(_getenv(data->cmd[idx + 1], data) == NULL)
+		for (i = 0; data->envp[i] != 0; i++)
 		{
-			for (i = 0; data->envp[i] != 0; i++)
-				;
-
-			len = _strlen(data->cmd[idx + 1]) + _strlen(data->cmd[idx + 2] + 2);
-			tmp = malloc(len + 1);
-			if (tmp == NULL)
+			if (envcmp(data->envp[i], data->cmd[idx + 1]))
 			{
-				errno = ENOMEM;
-				perror("Error");
-				return (1);
+				free(data->envp[i]);
+				flag = 1;
+				break;
 			}
-
-			for (j = 0; j < _strlen(data->cmd[idx + 1]); j++)
-				tmp[j] = data->cmd[idx + 1][j];
-			tmp[j++] = '=';
-			for (k = 0; data->cmd[idx + 2][k] != '\0'; k++)
-				tmp[j++] = data->cmd[idx + 2][k];
-			tmp[j] = '\0';
 		}
-		data->envp[i] = tmp;
+		len = _strlen(data->cmd[idx + 1]) + _strlen(data->cmd[idx + 2]) + 1;
+		data->envp[i] = malloc(len + 1);
+		if (data->envp[i] == NULL)
+		{
+			errno = ENOMEM;
+			perror("Error");
+			return (1);
+		}
+		_strcpy(data->envp[i], data->cmd[idx + 1]);
+		_strcat(data->envp[i], "=");
+		_strcat(data->envp[i], data->cmd[idx + 2]);
+		data->envp[i][len] = '\0';
+
+		if (!flag)
+			data->envp[i + 1] = NULL;
 	}
 	return (1);
 }

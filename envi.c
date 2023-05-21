@@ -43,6 +43,29 @@ char **envcpy(char **envicopy, char **envp)
 }
 
 /**
+ * envcmp - check if the variable exists
+ * @env: pointer to the environement variable
+ * @var: variable to check
+ * Return: variable | NULL
+ */
+char *envcmp(char *env, char *var)
+{
+	int len;
+
+	if (env == NULL || var == NULL)
+		return (NULL);
+
+	len = _strlen(var);
+
+	if (_strncmp(var, env, len) == 0 && env[len] == '=')
+	{
+		return (env);
+	}
+
+	return (NULL);
+}
+
+/**
  *
  *
  *
