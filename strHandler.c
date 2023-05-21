@@ -1,5 +1,10 @@
 #include "shell.h"
 
+int _strcmp(char *s1, char *s2);
+int _strncmp(const char *s1, const char *s2, size_t n);
+char *_strcpy(char *dest, char *src);
+int _strchr2(char *s, char c);
+
 /**
  * _strcmp - Compare two strings
  * @s1: first string
@@ -22,7 +27,7 @@ int _strcmp(char *s1, char *s2)
 }
 
 /**
- * _strcmp - Compare n bytes from a string
+ * _strncmp - Compare n bytes from a string
  * @s1: first string
  * @s2: second string
  * Return: 0 (equal) 1 (s1 greater) -1 (s2 greater)

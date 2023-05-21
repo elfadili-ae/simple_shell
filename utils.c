@@ -39,12 +39,12 @@ int prompt(data_t *data, int *n, int stream)
 char *_which(char *cmd, data_t *data)
 {
 	char *path, **pathToken, *buff = NULL;
-	int i, size, l1 = _strlen(cmd), l2;
+	int i, size = 0, l1 = _strlen(cmd), l2;
 
-	path = _getenv("PATH=", data);
+	path = _getenv("PATH", data);
+
 	if (path == NULL)
 		return (NULL);
-
 	pathToken = _strtok(path + 5, ":", &size);
 	for (i = 0; i < size - 1; i++)
 	{
@@ -55,7 +55,6 @@ char *_which(char *cmd, data_t *data)
 			freeSarray(pathToken, size);
 			return (NULL);
 		}
-
 		_memcpy(buff, pathToken[i], l2);
 		buff[_strlen(pathToken[i])] = '/';
 		_memcpy(buff + _strlen(pathToken[i]) + 1, cmd, l1);

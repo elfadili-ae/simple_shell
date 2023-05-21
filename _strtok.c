@@ -8,18 +8,16 @@
 char **_strtok(char *str, const char *delim, int *size)
 {
 	char **arrtok;
-	int i, j = 0, k, toklen;
+	int i, j = 0, k, toklen = 0;
 
 	if (str == NULL || delim == NULL || str[0] == '\0')
 		return (NULL);
-
 	*size = countTok(str, delim);
 	if (*size == 0)
 		return (NULL);
 	arrtok = malloc(sizeof(char*) * (*size + 1));
 	if (arrtok == NULL)
 		return (NULL);
-
 	for (i = 0; i < *size; i++)
 	{
 		while (str[j] == *delim)
@@ -55,8 +53,7 @@ int countTok(char *str, const char *delim)
 
 	if (str == NULL || delim == NULL)
 		return (0);
-
-	for (i = 0; str[i] != '\0'; i++)
+	for (i = 0; i < _strlen(str); i++)
 	{
 		if (!isDelim(str[i], delim))
 		{

@@ -19,6 +19,7 @@
 #define DELIM " \t\n"
 #define UNUSED __attribute__((unused))
 
+extern char **environ;
 
 /*******data_struct***************/
 /**
@@ -51,12 +52,13 @@ typedef struct data_t
 typedef struct builtin_t
 {
 	char *name;
-	int (*f)(data_t*);
+	int (*f)(data_t*, int);
 } builtin_t;
 
 /******MODE_FUNCTIONS**********/
 void interactive(int argc, data_t *data);
 void processHandler(data_t *data);
+int processHelper(data_t *dt, char **ptr, int *i, int *p, int *c, int *cmp);
 void forking(data_t *data, char **cmd, char *exe, int *stat);
 
 /*******FUNCTIONS**************/
@@ -87,11 +89,16 @@ int openFile(data_t *data);
 void closeFile(data_t *data, int fd);
 
 /*******BUILT-IN***************/
-int builtinCheck(data_t *data, char *cmd);
-int (*get_builtin(char *arg))(data_t*);
-int builtin_exit(data_t *data);
-int builtin_env(data_t *data);
-int builtin_cd(data_t *data);
+int builtinCheck(data_t *data, char *cmd, int idx);
+int (*get_builtin(char *arg))(data_t*, int);
+int builtin_exit(data_t *data, int idx);
+int builtin_env(data_t *data, int idx);
+int builtin_cd(data_t *data, int idx);
+
+/*********environmenet*********/
+char **envcpy(char **envicopy, char **envp);
+int builtin_setenv(data_t *data, int idx);
+int envCount(data_t *data);
 
 /*********getline**************/
 int _getLine(data_t *data, int *size, int stream);
@@ -108,7 +115,9 @@ int _strlen(const char *s);
 int _strcmp(char *s1, char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 char *_strcpy(char *dest, char *src);
+char *_strcat(char *dest, char *src);
 int _strchr2(char *s, char c);
+char *_strdup(char *str);
 
 /*******MEMORY_USAGE***********/
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
