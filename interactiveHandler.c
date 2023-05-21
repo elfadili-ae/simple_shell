@@ -7,7 +7,7 @@
  */
 void interactive(int ac, data_t *data)
 {
-	int size, line, fd = 0;
+	int size = 0, line = 0, fd = 0;
 
 	if (!data->modo && ac == 2)
 		fd = openFile(data);
@@ -26,7 +26,10 @@ void interactive(int ac, data_t *data)
 		if (data->cmdSize > 0)
 		{
 			processHandler(data);
-			freeData(data);
+			freeSarray(data->cmd, data->cmdSize);
+			data->cmd = NULL;
+			free(data->lineptr);
+			data->lineptr = NULL;
 		}
 	}
 	if (!data->modo && ac == 2)
@@ -43,36 +46,26 @@ void interactive(int ac, data_t *data)
 void processHandler(data_t *data)
 {
 	int stat = 0, i, j, k = 0, f = 0, Count, isBI = 0, pos = 0;
-	int cmp2, cmp = 0, sep = 0;
+	int cmp2 = 0, cmp = 0, sep = 0, Cpos = 0;
 	char *exe = NULL, *ptr[64];
 
 	Count = commandsCounter(data);
 	for (i = 0; i < Count; i++)
 	{
-		for (j = 0; data->cmd[pos + j] != NULL; j++)
-		{
-			if (i < Count - 1)
-			{
-				cmp2 = tokChecker(data->cmd[pos + j]);
-				if (cmp2 != 0)
-					break;
-			} ptr[j] = data->cmd[pos + j];
-		} ptr[j] = NULL;
-
+		j = processHelper(data, ptr, &i, &pos, &Count, &cmp2);
 		if (i == 0 || (stat == 0 && cmp == 0) || ((sep  & 2) && stat == 0)
-		     || ((sep & 4) && stat != 0) || (sep & 1))
+		    || ((sep & 4) && stat != 0) || (sep & 1))
 		{
-			isBI = builtinCheck(data, ptr[0]);
+			Cpos = cmp2 == 0 ? 0 : 1;
+			isBI = builtinCheck(data, ptr[0], i + Cpos);
 			if (isBI)
 				continue;
+			exe = exeFixer(ptr[0], data);
+			if (!isBI && !isDir(ptr[0]) && exe != NULL)
+				forking(data, ptr, exe, &stat);
 			else
-			{
-				exe = exeFixer(ptr[0], data);
-				if (!isBI && !isDir(ptr[0]) && exe != NULL)
-					forking(data, ptr, exe, &stat);
-				else
-					Notfound(data);
-			}
+				Notfound(data);
+
 		}
 		for (sep = 0; i < Count - 1 && data->cmd[pos + k] != NULL; k++)
 		{
@@ -82,9 +75,30 @@ void processHandler(data_t *data)
 				k--;
 				break;
 			}
-		}
-		pos += j + 1;
+		} pos += j + 1;
 	}
+}
+
+/**
+ *
+ *
+ */
+int processHelper(data_t *data, char **ptr, int *i, int *pos, int *c, int *cmp2)
+{
+	int j;
+
+	for (j = 0; data->cmd[(*pos) + j] != NULL; j++)
+	{
+		if ((*i) < (*c) - 1)
+		{
+			*cmp2 = tokChecker(data->cmd[(*pos) + j]);
+			if ((*cmp2) != 0)
+				break;
+		}
+		ptr[j] = data->cmd[(*pos) + j];
+	}
+	ptr[j] = NULL;
+	return (j);
 }
 
 /**

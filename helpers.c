@@ -20,7 +20,6 @@ char *exeFixer(char *cmd, data_t *data)
 		data->flag = 1;
 		exe = _which(cmd, data);
 	}
-
 	return (exe);
 }
 

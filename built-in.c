@@ -6,14 +6,14 @@
  *
  *
  */
-int builtinCheck(data_t *data, char *cmd)
+int builtinCheck(data_t *data, char *cmd, int idx)
 {
-	int (*fun)(data_t*);
+	int (*fun)(data_t*, int);
 
 	fun = get_builtin(cmd);
 	if (fun)
 	{
-		fun(data);
+		fun(data, idx);
 	}
 	else
 		return (0);
@@ -28,13 +28,14 @@ int builtinCheck(data_t *data, char *cmd)
  * Return: function (success) | 0 (failed)
  *
  */
-int (*get_builtin(char *cmd))(data_t*)
+int (*get_builtin(char *cmd))(data_t*, int)
 {
 	int i;
 	builtin_t bltin[] = {
 		{"exit", builtin_exit},
 		{"env", builtin_env},
 		{"cd", builtin_cd},
+		{"setenv", builtin_setenv},
 		{NULL, NULL}
 	};
 

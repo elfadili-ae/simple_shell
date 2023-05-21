@@ -2,6 +2,8 @@
 
 char *_memcpy(char *dest, char *src, unsigned int n);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+char *_strdup(char *str);
+char *_strcat(char *dest, char *src);
 void freeData(data_t *data);
 void freeSarray(char **arr, int size);
 
@@ -63,6 +65,58 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
+ * _strdup - copy a str in a new pointer
+ * @str: string to copy
+ * Return: pointer to string | NULL (failed)
+ */
+
+char *_strdup(char *str)
+{
+	int i, len;
+	char *dup;
+
+	if (str == NULL)
+		return (NULL);
+
+	len = _strlen(str);
+	dup = malloc(sizeof(char) * len + 1);
+	if (dup == NULL)
+	{
+		errno = ENOMEM;
+		return NULL;
+	}
+	for (i = 0; i < _strlen(str); i++)
+		dup[i] = str[i];
+	dup[i] = '\0';
+
+	return (dup);
+}
+
+/**
+ * _strcat - Concatenate two strings
+ * @dest: destinatin string
+ * @src: source string
+ * Return: pointer to string @dest
+ */
+
+char *_strcat(char *dest, char *src)
+{
+	int i = 0;
+	int len = 0;
+
+	while (dest[len] != '\0')
+		len++;
+
+	while (src[i] != '\0')
+	{
+		dest[len + i] = src[i];
+		i++;
+	}
+	dest[len + i] = '\0';
+	return (dest);
+}
+
+/**
  * freeData -
  *
  *
@@ -77,8 +131,9 @@ void freeData(data_t *data)
 	free(data->lineptr);
 	data->lineptr = NULL;
 
-	/** free data->envp */
-
+	/* free envi */
+	freeSarray(data->envp, 48);
+	data->envp = NULL;
 }
 
 /**
