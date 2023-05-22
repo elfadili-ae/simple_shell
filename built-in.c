@@ -37,6 +37,7 @@ int (*get_builtin(char *cmd))(data_t*, int)
 		{"cd", builtin_cd},
 		{"setenv", builtin_setenv},
 		{"unsetenv", builtin_unsetenv},
+		{"alias", builtin_aliases},
 		{NULL, NULL}
 	};
 

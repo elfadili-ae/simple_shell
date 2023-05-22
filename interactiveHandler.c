@@ -57,6 +57,7 @@ void processHandler(data_t *data)
 		    || ((sep & 4) && stat != 0) || (sep & 1))
 		{
 			Cpos = cmp2 == 0 ? 0 : 1;
+			ptr[0] = aliasHandler(data, pos);
 			isBI = builtinCheck(data, ptr[0], i + Cpos);
 			if (isBI)
 				continue;
