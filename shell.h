@@ -99,6 +99,8 @@ int builtin_aliases(data_t *data, int idx);
 
 /*********environmenet*********/
 char **envcpy(char **envicopy, char **envp);
+int builtin_setenv(data_t *data, int idx);
+int builtin_unsetenv(data_t *data, int idx);
 char *envcmp(char *env, char *var);
 int envCount(data_t *data);
 

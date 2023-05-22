@@ -170,3 +170,30 @@ int builtin_aliases(data_t *data, int idx)
 
 	return (1);
 }
+
+/**
+ * builtin_unsetenv - unsest an environement varaible
+ * @data: data holder
+ * @idx: command index
+ * Return: 0 (success)
+ */
+int builtin_unsetenv(data_t *data, int idx)
+{
+	int i, j;
+
+	if (data->cmd[idx + 1] != NULL)
+	{
+		for (i = 0; data->envp[i] != 0; i++)
+		{
+			if (envcmp(data->envp[i], data->cmd[idx + 1]))
+			{
+				free(data->envp[i]);
+				for (j = i + 1; data->envp[j] != NULL; j++)
+					data->envp[j - 1] = data->envp[j];
+				data->envp[j - 1] = NULL;
+				break;
+			}
+		}
+	}
+	return (0);
+}
