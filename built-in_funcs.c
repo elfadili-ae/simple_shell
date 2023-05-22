@@ -132,3 +132,28 @@ int builtin_setenv(data_t *data, int idx)
 	}
 	return (1);
 }
+/**
+ * 
+ *
+ */
+int builtin_unsetenv(data_t *data, int idx)
+{
+	int i, j;
+
+	if (data->cmd[idx + 1] != NULL)
+	{
+		for (i = 0; data->envp[i] != 0; i++)
+		{
+			if (envcmp(data->envp[i], data->cmd[idx + 1]))
+			{
+				free(data->envp[i]);
+				for (j = i + 1; data->envp[j] != NULL; j++)
+					data->envp[j - 1] = data->envp[j];
+				data->envp[j - 1] = NULL;
+				break;
+			}
+		}
+		
+	}
+	return (0);
+}
