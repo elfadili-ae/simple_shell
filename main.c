@@ -30,6 +30,10 @@ int main(int argc, char *argv[], char *envp[])
 
 	envcpy(data.envp, envp);
 	envp = data.envp;
+	/** alias **/
+	data.alias = malloc(sizeof(char*) * 24);
+	for (i = 0; i < 24; i++)
+		data.alias[i] = NULL;
 
 	data.lineptr = NULL;
 	data.cmd = NULL;

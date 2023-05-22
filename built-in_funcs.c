@@ -132,3 +132,41 @@ int builtin_setenv(data_t *data, int idx)
 	}
 	return (1);
 }
+
+/**
+ * builtin_aliases - handle the alias command
+ * @data: data holder
+ * @idx: command index
+ * Return: 1
+ */
+int builtin_aliases(data_t *data, int idx)
+{
+	int i = 0, flag = 0;
+
+	if (data->cmd[idx + 1] == NULL)
+		printAliases(data, NULL);
+	else
+	{
+		while (data->cmd[idx + 1 + i])
+		{
+			if (_strchr2(data->cmd[idx + 1 + i], '='))
+			{
+				addAlias(data, data->cmd[idx + 1 + i]);
+				flag = 1;
+			}
+			else
+				flag = printAliases(data, data->cmd[idx + 1 + i]);
+
+			if (!flag)
+			{
+				_puts("alias: ", 2);
+				_puts(data->cmd[idx + 1 + i], 2);
+				_puts(" not found\n", 2);
+				errno = 127;
+			}
+			i++;
+		}
+	}
+
+	return (1);
+}

@@ -132,8 +132,11 @@ void freeData(data_t *data)
 	data->lineptr = NULL;
 
 	/* free envi */
-	freeSarray(data->envp, 48);
+	freeSarray(data->envp, 64);
 	data->envp = NULL;
+
+	/* free aliases */
+	freeSarray(data->alias, 24);
 }
 
 /**

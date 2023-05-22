@@ -19,7 +19,6 @@
 #define DELIM " \t\n"
 #define UNUSED __attribute__((unused))
 
-extern char **environ;
 
 /*******data_struct***************/
 /**
@@ -38,6 +37,7 @@ typedef struct data_t
 	int cmdSize;
 	int cmdCounter;
 	char **envp;
+	char **alias;
 	int flag;
 	int modo;
 	char *pewd;
@@ -94,12 +94,18 @@ int (*get_builtin(char *arg))(data_t*, int);
 int builtin_exit(data_t *data, int idx);
 int builtin_env(data_t *data, int idx);
 int builtin_cd(data_t *data, int idx);
+int builtin_setenv(data_t *data, int idx);
+int builtin_aliases(data_t *data, int idx);
 
 /*********environmenet*********/
 char **envcpy(char **envicopy, char **envp);
-int builtin_setenv(data_t *data, int idx);
 char *envcmp(char *env, char *var);
 int envCount(data_t *data);
+
+/*********aliases**************/
+char *aliasHandler(data_t *data, int pos);
+void addAlias(data_t *data, char *alia);
+int  printAliases(data_t *data, char *alias);
 
 /*********getline**************/
 int _getLine(data_t *data, int *size, int stream);
@@ -112,6 +118,7 @@ int isDelim(char c, const char *delim);
 
 /********STR_HELPERS***********/
 void _puts(char *s, int stream);
+int _putchar(char c);
 int _strlen(const char *s);
 int _strcmp(char *s1, char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);

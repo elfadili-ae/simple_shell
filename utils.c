@@ -71,8 +71,8 @@ char *_which(char *cmd, data_t *data)
 }
 
 /**
- *
- *
+ * Notfound - error when file not found
+ * @data: data holder
  */
 void Notfound(data_t *data)
 {
