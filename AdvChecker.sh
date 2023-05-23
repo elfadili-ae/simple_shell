@@ -100,6 +100,57 @@ echo "$command1" > 1a2b3c4d5e6f7g8h9i
 echo "$command2" > 1a2b3c4d5e6f7g8h9b
 run_check "three "&&" "
 
+######### case 11
+command1=$(echo "ls;" | ./hsh 2>&1)
+command2=$(echo "ls;" | sh 2>&1)
+echo "$command1" > 1a2b3c4d5e6f7g8h9i
+echo "$command2" > 1a2b3c4d5e6f7g8h9b
+run_check " "ls;" "
+
+######### case 12
+command1=$(echo "ls ;" | ./hsh 2>&1)
+command2=$(echo "ls ;" | sh 2>&1)
+echo "$command1" > 1a2b3c4d5e6f7g8h9i
+echo "$command2" > 1a2b3c4d5e6f7g8h9b
+run_check ""ls ;" "
+
+######### case 13
+command1=$(echo "/bin/ls zzee ; /bin/ls" | ./hsh 2>&1)
+command2=$(echo "/bin/ls zzee ; /bin/ls" | sh 2>&1)
+echo "$command1" > 1a2b3c4d5e6f7g8h9i
+echo "$command2" > 1a2b3c4d5e6f7g8h9b
+run_check ""cmd" fail ; cmd"
+
+######### case 14
+command1=$(echo "echo $$" | ./hsh 2>&1)
+command2=$(echo "echo $$" | sh 2>&1)
+echo "$command1" > 1a2b3c4d5e6f7g8h9i
+echo "$command2" > 1a2b3c4d5e6f7g8h9b
+run_check ""echo" dollarx2"
+
+######### case 15
+command1=$(echo "echo $helloMe" | ./hsh 2>&1)
+command2=$(echo "echo $helloMe" | sh 2>&1)
+echo "$command1" > 1a2b3c4d5e6f7g8h9i
+echo "$command2" > 1a2b3c4d5e6f7g8h9b
+run_check ""echo" invalid variable"
+
+######### case 16
+command1=$(echo "echo $PATH" | ./hsh 2>&1)
+command2=$(echo "echo $PATH" | sh 2>&1)
+echo "$command1" > 1a2b3c4d5e6f7g8h9i
+echo "$command2" > 1a2b3c4d5e6f7g8h9b
+run_check ""echo"  dollar path"
+
+######### case 17
+command1=$(echo "ls /homzz
+echo $?" | ./hsh 2>&1)
+command2=$(echo "ls /homzz
+echo $?" | sh 2>&1)
+echo "$command1" > 1a2b3c4d5e6f7g8h9i
+echo "$command2" > 1a2b3c4d5e6f7g8h9b
+run_check ""echo" status fail"
+
 #>>>> betty testing  <<<<<<
 
 #remove the hashs below to enable betty testing

@@ -3,7 +3,7 @@
 /**
  * interactive - simple shell interactive mode
  * @ac: arguments count
- * @av: arguments vector
+ * @data: data holder
  */
 void interactive(int ac, data_t *data)
 {
@@ -40,16 +40,14 @@ void interactive(int ac, data_t *data)
 /**
  * processHandler - fork and handle parent/child process
  * also andle operands && and ||
- * @exe: name of the executable to run in the child process
- * @cmd: the command buffer
+ * @data: data holder
  */
 void processHandler(data_t *data)
 {
-	int stat = 0, i, j, k = 0, f = 0, Count, isBI = 0, pos = 0;
-	int cmp2 = 0, cmp = 0, sep = 0, Cpos = 0;
+	int stat = 0, i, j, k = 0, f = 0, Count = commandsCounter(data);
+	int cmp2 = 0, cmp = 0, sep = 0, Cpos = 0, isBI = 0, pos = 0, m;
 	char *exe = NULL, *ptr[64];
 
-	Count = commandsCounter(data);
 	for (i = 0; i < Count; i++)
 	{
 		j = processHelper(data, ptr, &i, &pos, &Count, &cmp2);
@@ -58,6 +56,13 @@ void processHandler(data_t *data)
 		{
 			Cpos = cmp2 == 0 ? 0 : 1;
 			ptr[0] = aliasHandler(data, pos);
+			if (i == Count - 1)
+			{
+				for (m = 0; ptr[m] != NULL; m++)
+					;
+				if (_strcmp(ptr[m - 1], ";") == 0)
+					ptr[m - 1] = NULL;
+			}
 			isBI = builtinCheck(data, ptr[0], i + Cpos);
 			if (isBI)
 				continue;
@@ -66,7 +71,6 @@ void processHandler(data_t *data)
 				forking(data, ptr, exe, &stat);
 			else
 				Notfound(data);
-
 		}
 		for (sep = 0; i < Count - 1 && data->cmd[pos + k] != NULL; k++)
 		{
@@ -81,10 +85,16 @@ void processHandler(data_t *data)
 }
 
 /**
- *
- *
+ * processHelper - check for separators and operators
+ * @data: data holder
+ * @ptr: pointer to first argument in the command
+ * @i: number of commands index
+ * @pos: position of the command in the array of commands
+ * @c: numberof commands
+ * @cmp2: the number of the sep/operator
  */
-int processHelper(data_t *data, char **ptr, int *i, int *pos, int *c, int *cmp2)
+int processHelper(data_t *data, char **ptr, int *i, int *pos,
+		  int *c, int *cmp2)
 {
 	int j;
 

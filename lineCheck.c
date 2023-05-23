@@ -18,9 +18,9 @@ int isDir(char *path)
 	return (0);
 }
 /**
- *
- *
- *
+ * _isDigit - check if the string has only digits
+ * @s: string to check
+ * Return: 1 (digits) | 0 (otherwise)
  */
 int _isDigit(char *s)
 {
