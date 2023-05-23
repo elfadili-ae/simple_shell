@@ -8,8 +8,9 @@
  */
 int main(int argc, char *argv[], char *envp[])
 {
-	int i;
 	data_t data;
+
+	signal(SIGINT, handle_sig);
 
 	if (isatty(STDIN_FILENO) && argc == 1)
 		data.modo = 1;
@@ -18,30 +19,42 @@ int main(int argc, char *argv[], char *envp[])
 
 	errno = 0;
 
-	/*initialize data*/
-	data.progName = argv[0];
-	data.argv = argv;
-
-	/*copy envp*/
-	data.envp = malloc(sizeof(char*) * 64);
-
-	for (i = 0; i < 64; i++)
-		data.envp[i] = NULL;
-
-	envcpy(data.envp, envp);
-	envp = data.envp;
-	/** alias **/
-	data.alias = malloc(sizeof(char*) * 24);
-	for (i = 0; i < 24; i++)
-		data.alias[i] = NULL;
-
-	data.lineptr = NULL;
-	data.cmd = NULL;
-	data.cmdSize = 0;
-	data.cmdCounter = 0;
-	data.pewd = NULL;
+	dataInit(&data, argv, envp);
 
 	interactive(argc, &data);
 
 	return (0);
+}
+
+void dataInit(data_t *data, char *argv[], char *envp[])
+{
+	int i;
+
+	/*initialize data*/
+	data->progName = argv[0];
+	data->argv = argv;
+
+	/*copy envp*/
+	data->envp = malloc(sizeof(char*) * 64);
+
+	for (i = 0; i < 64; i++)
+		data->envp[i] = NULL;
+
+	envcpy(data->envp, envp);
+	envp = data->envp;
+	/** alias **/
+	data->alias = malloc(sizeof(char*) * 24);
+	for (i = 0; i < 24; i++)
+		data->alias[i] = NULL;
+
+	data->lineptr = NULL;
+	data->cmd = NULL;
+	data->cmdSize = 0;
+	data->cmdCounter = 0;
+}
+
+void handle_sig(UNUSED int sign)
+{
+	_puts("\n", 1);
+	_puts("$ ", 1);
 }

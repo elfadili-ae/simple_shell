@@ -60,6 +60,7 @@ void interactive(int argc, data_t *data);
 void processHandler(data_t *data);
 int processHelper(data_t *dt, char **ptr, int *i, int *p, int *c, int *cmp);
 void forking(data_t *data, char **cmd, char *exe, int *stat);
+void dataInit(data_t *data, char *argv[], char *envp[]);
 
 /*******FUNCTIONS**************/
 int prompt(data_t *data, int *n, int stream);
@@ -117,6 +118,9 @@ char **_strtok(char *str, const char *delim, int *size);
 int countTok(char *str, const char *delim);
 int tokLen(char *str, const char *delim, int index);
 int isDelim(char c, const char *delim);
+
+/*********signals**************/
+void handle_sig(UNUSED int sign);
 
 /********STR_HELPERS***********/
 void _puts(char *s, int stream);
