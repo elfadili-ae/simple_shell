@@ -19,13 +19,21 @@ int prompt(data_t *data, int *n, int stream)
 	val = _getLine(data, n, stream);
 
 	if (!data->modo && val == 0)
+	{
+		free(data->lineptr);
+		freeSarray(data->alias, 24);
+		freeSarray(data->envp, 64);
 		exit(errno);
+	}
 
 	if (val == 1)
 		return (0);
 
 	if (val == -1)
 	{
+		free(data->lineptr);
+		freeSarray(data->alias, 24);
+		freeSarray(data->envp, 64);
 		exit(EXIT_FAILURE);
 	}
 	return (val);
@@ -85,5 +93,8 @@ void Notfound(data_t *data)
 	_puts(": not found\n", 2);
 
 	if (!data->modo)
+	{
+		freeData(data);
 		exit(127);
+	}
 }

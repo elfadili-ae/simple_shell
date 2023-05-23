@@ -34,7 +34,7 @@ void interactive(int ac, data_t *data)
 	}
 	if (!data->modo && ac == 2)
 		closeFile(data, fd);
-	free(data->lineptr);
+	freeData(data);
 }
 
 /**

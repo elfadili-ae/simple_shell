@@ -114,12 +114,17 @@ void commentHandler(data_t *data)
 {
 	int i;
 
-	for (i = 0; data->lineptr[i] != '\0'; i++)
+	if (data->lineptr[0] == '#')
 	{
-		if (data->lineptr[i] == '#')
-		{
-			data->lineptr[i] = '\0';
-			return;
-		}
+		data->lineptr[0] = '\0';
+		return;
+	}
+	for (i = 1; data->lineptr[i] != '\0'; i++)
+	{
+			if (data->lineptr[i] == '#' && data->lineptr[i - 1] == ' ')
+			{
+				data->lineptr[i] = '\0';
+				return;
+			}
 	}
 }

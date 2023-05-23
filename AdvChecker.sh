@@ -151,6 +151,28 @@ echo "$command1" > 1a2b3c4d5e6f7g8h9i
 echo "$command2" > 1a2b3c4d5e6f7g8h9b
 run_check ""echo" status fail"
 
+
+######### case 18
+command1=$(echo "echo comment #dont print this line" | ./hsh 2>&1)
+command2=$(echo "echo comment #dont print this line" | sh 2>&1)
+echo "$command1" > 1a2b3c4d5e6f7g8h9i
+echo "$command2" > 1a2b3c4d5e6f7g8h9b
+run_check "command and "comment" "
+
+######### case 19
+command1=$(echo "#comment dont print me" | ./hsh 2>&1)
+command2=$(echo "#comment dont print me" | sh 2>&1)
+echo "$command1" > 1a2b3c4d5e6f7g8h9i
+echo "$command2" > 1a2b3c4d5e6f7g8h9b
+run_check ""comment" only"
+
+######### case 20
+command1=$(echo "echo print#this line" | ./hsh 2>&1)
+command2=$(echo "echo print#this line" | sh 2>&1)
+echo "$command1" > 1a2b3c4d5e6f7g8h9i
+echo "$command2" > 1a2b3c4d5e6f7g8h9b
+run_check ""comment" sign in echo"
+
 #>>>> betty testing  <<<<<<
 
 #remove the hashs below to enable betty testing
