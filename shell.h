@@ -54,9 +54,6 @@ typedef struct builtin_t
 	int (*f)(data_t*, int);
 } builtin_t;
 
-/*********CD_HANDLER************/
-void _setenv(char *name, char *value, data_t *data);
-
 /******MODE_FUNCTIONS**********/
 void interactive(int argc, data_t *data);
 void processHandler(data_t *data);
@@ -76,6 +73,10 @@ int commandsCounter(data_t *data);
 void commentHandler(data_t *data);
 int tokCompare(char *tok, int *sep, int *flag);
 int tokChecker(char *tok);
+
+/*********CD_HANDLER************/
+int setPWD(data_t *data, char *newDir, int p);
+void _setenv(data_t *data, char *name, char *value);
 
 /******separator***************/
 char *opSep(data_t *data);

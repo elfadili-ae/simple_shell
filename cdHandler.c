@@ -1,11 +1,16 @@
 #include "shell.h"
+
+void _setenv(data_t *data, char *name, char *value);
+int setPWD(data_t *data, char *newDir, int p);
+
 /**
  * _setenv - set or modify an environement variable
  * @name: variable name
  * @value: value of the variable
  * @data: data holder
  */
-void _setenv(char *name, char *value, data_t *data)
+
+void _setenv(data_t *data, char *name, char *value)
 {
 	int i, len;
 	char flag = 0;
@@ -37,4 +42,46 @@ void _setenv(char *name, char *value, data_t *data)
 		if (!flag)
 			data->envp[i + 1] = NULL;
 	}
+}
+
+/**
+ * setPWD - set the current working directory
+ * @data: data holder
+ * @newDir: new working directory
+ * @p: new or -
+ * @Return: 0 (success | 1 (failed)
+ */
+int setPWD(data_t *data, char *newDir, int p)
+{
+	int stat = 0, pos = 0;
+	char prevdir[128] = {'\0'};
+
+
+	getcwd(prevdir, 128);
+	if (_strcmp(prevdir, newDir) != 0)
+	{
+		pos = _strchr2(newDir, '=');
+		stat = chdir(newDir + pos + p);
+		if (stat == -1)
+		{
+			_puts(data->progName, 2);
+			_puts(": ", 2);
+			print_int(data->cmdCounter, 2);
+			_puts(": cd: can't cd to ", 2);
+			_puts(newDir, 2);
+			_puts("\n", 2);
+			errno = 2;
+			return (1);
+		}
+		pos = _strchr2(newDir, '=');
+		_setenv(data, "PWD", newDir + pos + p);
+	}
+	if (p)
+	{
+		_puts(newDir + pos + p, 1);
+		_puts("\n", 1);
+	}
+	pos = _strchr2(prevdir, '=');
+	_setenv(data, "OLDPWD", prevdir + pos + p);
+	return (0);
 }

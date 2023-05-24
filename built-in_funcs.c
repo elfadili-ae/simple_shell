@@ -44,55 +44,46 @@ int builtin_exit(data_t *data, int idx)
 /**
  * builtin_cd - cd builtin function
  * @data: data holder
- * @idx: index
- * Return: integer
+ * @idx: command index
+ * Return: 1 (success)
  */
 int builtin_cd(data_t *data, UNUSED int idx)
 {
-	char *envHOME = _getenv("HOME=", data);
-	char *sweetHome = envHOME + _strchr2(envHOME, '=') + 1;
-	char *pwd = _getenv("PWD=", data);
-	char *sweetPwd = pwd + _strchr2(pwd, '=') + 1;
-	char *oldpwd;
-	int status, size = data->cmdSize;
+	char *sweetHome = _getenv("HOME=", data), oldpwd[128] = {'\0'};
+	char *prevdir = NULL;
+	int status = 0, pos = 5;
 
-	if (size == 1)
-	{
-		status = chdir(sweetHome);
-	}
-	else if (size == 2)
+	if (data->cmd[1])
 	{
 		if (_strcmp(data->cmd[1], "-") == 0)
 		{
-			printf("I am inside the hyphen\n");
-			oldpwd = getcwd(NULL, 0);
-			printf("%s\n", oldpwd);
-			if (oldpwd == NULL)
-			{
-				_puts("cd: OLDPWD not set\n", 2);
-				return (1);
-			}
-			status = chdir(oldpwd);
-			free(oldpwd);
+			prevdir = _getenv("OLDPWD=", data);
+			if(prevdir != NULL)
+				status = setPWD(data, prevdir, 1);
+/*			_puts(prevdir + _strchr2(prevdir, '=') + 1, 1);*/
+/*			_puts("\n", 1);*/
 		}
 		else
-			status = chdir(data->cmd[1]);
+		{
+			status = setPWD(data, data->cmd[1], 0);
+		}
 	}
-
-	if (status == -1)
+	else
 	{
-		_puts("cd: failed\n", 2);
-		exit(128);
-
+		if(sweetHome == NULL)
+		{
+			pos = 0;
+			sweetHome = getcwd(oldpwd, 128);
+		}
+		status = setPWD(data, sweetHome + pos, 0);
 	}
-	_setenv("OLDPWD", sweetPwd, data);
-	return (1);
-}
 
+	return (status);
+}
 /**
  * builtin_env - print the environement variables
  * @data: data holder
- * @idx: index
+ * @idx: command index
  * Return: 1 (called)
  */
 int builtin_env(data_t *data, UNUSED int idx)
@@ -110,8 +101,8 @@ int builtin_env(data_t *data, UNUSED int idx)
 /**
  * builtin_setenv - set an ennvironement variable
  * @data: data holder
- * @idx: index
- * Return: integer
+ * @idx: command index
+ * Return: 1 (success)
  */
 int builtin_setenv(data_t *data, int idx)
 {
@@ -152,7 +143,7 @@ int builtin_setenv(data_t *data, int idx)
  * builtin_unsetenv - unsest an environement varaible
  * @data: data holder
  * @idx: command index
- * Return: 0 (success)
+ * Return: 1 (success)
  */
 int builtin_unsetenv(data_t *data, int idx)
 {
@@ -172,5 +163,5 @@ int builtin_unsetenv(data_t *data, int idx)
 			}
 		}
 	}
-	return (0);
+	return (1);
 }
