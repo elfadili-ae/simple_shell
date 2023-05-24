@@ -5,17 +5,17 @@ char *_which(char *cmd, data_t *data);
 
 /**
  * prompt - get the command from the stream
- * @lptr: pointer to the buffer where to store string
+ * @data: data holder
  * @n: pointer to the size of the string
- * @strm: the stream
+ * @stream: the stream
  * Return: number of characters read | -1 (failed)
  */
 int prompt(data_t *data, int *n, int stream)
 {
 	int val;
+
 	if (data->modo)
 		_puts("$ ", 1);
-
 	val = _getLine(data, n, stream);
 	if (!data->modo && val == 0)
 	{
@@ -42,6 +42,7 @@ int prompt(data_t *data, int *n, int stream)
 /**
  * _which - find the path of a filename
  * @cmd: filename to find it's path
+ * @data: data holder
  * Return: the file's path | NULL (not found)
  */
 char *_which(char *cmd, data_t *data)
