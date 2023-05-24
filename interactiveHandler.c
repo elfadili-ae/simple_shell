@@ -21,10 +21,11 @@ void interactive(int ac, data_t *data)
 		commentHandler(data);
 		data->lineptr = opSep(data);
 		data->cmd = _strtok(data->lineptr, DELIM, &data->cmdSize);
-		specialVarHandler(data);
+
 
 		if (data->cmdSize > 0)
 		{
+			specialVarHandler(data);
 			processHandler(data);
 			freeSarray(data->cmd, data->cmdSize);
 			data->cmd = NULL;

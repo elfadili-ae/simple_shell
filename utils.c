@@ -17,7 +17,6 @@ int prompt(data_t *data, int *n, int stream)
 		_puts("$ ", 1);
 
 	val = _getLine(data, n, stream);
-
 	if (!data->modo && val == 0)
 	{
 		free(data->lineptr);
