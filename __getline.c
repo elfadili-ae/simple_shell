@@ -1,5 +1,4 @@
 #include "shell.h"
-
 /**
  * _getLine - read line from the stream
  * @data: data holder
@@ -47,7 +46,6 @@ int _getLine(data_t *data, int *size, int stream)
 			data->lineptr[(i++)] = c;
 			break;
 		} data->lineptr[i] = c;
-	}
-	data->lineptr[i] = '\0';
+	} data->lineptr[i] = '\0';
 	return (i);
 }
