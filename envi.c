@@ -2,8 +2,9 @@
 
 /**
  * _getenv - get envioronment variables value
- *
- *
+ * @var: varaible
+ * @data: data holder
+ * Return: string
  */
 char *_getenv(char *var, data_t *data)
 {
@@ -66,9 +67,9 @@ char *envcmp(char *env, char *var)
 }
 
 /**
- *
- *
- *
+ * envCount - environement Counter
+ * @data: data holder
+ * Return: integer
  */
 int envCount(data_t *data)
 {
