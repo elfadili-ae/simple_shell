@@ -1,10 +1,10 @@
 #include "shell.h"
-
 /**
- *
- *
- *
- *
+ * builtinCheck - Check for builtin functions
+ * @data: data holder
+ * @cmd: command line
+ * @idx: index
+ * Return: integer
  */
 int builtinCheck(data_t *data, char *cmd, int idx)
 {
@@ -26,7 +26,6 @@ int builtinCheck(data_t *data, char *cmd, int idx)
  * command entered.
  * @cmd: command
  * Return: function (success) | 0 (failed)
- *
  */
 int (*get_builtin(char *cmd))(data_t*, int)
 {
@@ -44,7 +43,7 @@ int (*get_builtin(char *cmd))(data_t*, int)
 	for (i = 0; bltin[i].name != NULL; i++)
 	{
 		if (_strcmp(cmd, bltin[i].name) == 0)
-			  return (bltin[i].f);
+			return (bltin[i].f);
 	}
 	return (0);
 }
