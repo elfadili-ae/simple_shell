@@ -5,6 +5,43 @@ int printAliases(data_t *data, char *alias);
 void  addAlias(data_t *data, char *alia);
 
 /**
+ * builtin_aliases - handle the alias command
+ * @data: data holder
+ * @idx: command index
+ * Return: 1
+ */
+int builtin_aliases(data_t *data, int idx)
+{
+	int i = 0, flag = 0;
+
+	if (data->cmd[idx + 1] == NULL)
+		printAliases(data, NULL);
+	else
+	{
+		while (data->cmd[idx + 1 + i])
+		{
+			if (_strchr2(data->cmd[idx + 1 + i], '='))
+			{
+				addAlias(data, data->cmd[idx + 1 + i]);
+				flag = 1;
+			}
+			else
+				flag = printAliases(data, data->cmd[idx + 1 + i]);
+
+			if (!flag)
+			{
+				_puts("alias: ", 2);
+				_puts(data->cmd[idx + 1 + i], 2);
+				_puts(" not found\n", 2);
+				errno = 127;
+			}
+			i++;
+		}
+	}
+
+	return (1);
+}
+/**
  * aliasHandler - Handle alias
  * @data: data holder
  * @pos: pos
@@ -17,7 +54,7 @@ char *aliasHandler(data_t *data, int pos)
 	for (i = 0; data->alias[i]; i++)
 	{
 		if (_strncmp(data->alias[i], data->cmd[pos], cmdlen) == 0
-			&& data->alias[i][cmdlen] == '=')
+				&& data->alias[i][cmdlen] == '=')
 		{
 			free(data->cmd[pos]);
 			newlen = _strlen(data->alias[i]) -  cmdlen - 1;
@@ -49,7 +86,7 @@ int printAliases(data_t *data, char *alias)
 		if (alias)
 		{
 			if (_strncmp(data->alias[i], alias, _strlen(alias)) == 0
-			   && data->alias[i][_strlen(alias)] == '=')
+					&& data->alias[i][_strlen(alias)] == '=')
 				flag = 1;
 			else
 				continue;
