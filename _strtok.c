@@ -2,8 +2,10 @@
 
 /**
  * _strtok - tokenize a string
- *
- *
+ * @str: string
+ * @delim: delimiter
+ * @size: size
+ * Return: Array of tokens
  */
 char **_strtok(char *str, const char *delim, int *size)
 {
@@ -15,7 +17,7 @@ char **_strtok(char *str, const char *delim, int *size)
 	*size = countTok(str, delim);
 	if (*size == 0)
 		return (NULL);
-	arrtok = malloc(sizeof(char*) * (*size + 1));
+	arrtok = malloc(sizeof(char *) * (*size + 1));
 	if (arrtok == NULL)
 		return (NULL);
 	for (i = 0; i < *size; i++)
@@ -65,9 +67,10 @@ int countTok(char *str, const char *delim)
 }
 /**
  * tokLen - calculate the length of the token
- * @str:
- *
- *
+ * @str: string
+ * @delim: delimiter
+ * @index: index
+ * Return: integer
  */
 int tokLen(char *str, const char *delim, int index)
 {
