@@ -4,6 +4,7 @@ int _strcmp(char *s1, char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 char *_strcpy(char *dest, char *src);
 int _strchr2(char *s, char c);
+char *_strcat(char *dest, char *src);
 
 /**
  * _strcmp - Compare two strings
@@ -86,4 +87,26 @@ int _strchr2(char *s, char c)
 	if (s[i] == c)
 		return (i);
 	return (0);
+}
+/**
+ * _strcat - Concatenate two strings
+ * @dest: destinatin string
+ * @src: source string
+ * Return: pointer to string @dest
+ */
+char *_strcat(char *dest, char *src)
+{
+	int i = 0;
+	int len = 0;
+
+	while (dest[len] != '\0')
+		len++;
+
+	while (src[i] != '\0')
+	{
+		dest[len + i] = src[i];
+		i++;
+	}
+	dest[len + i] = '\0';
+	return (dest);
 }

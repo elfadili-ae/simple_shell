@@ -3,7 +3,6 @@
 char *_memcpy(char *dest, char *src, unsigned int n);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char *_strdup(char *str);
-char *_strcat(char *dest, char *src);
 void freeData(data_t *data);
 void freeSarray(char **arr, int size);
 
@@ -87,28 +86,6 @@ char *_strdup(char *str)
 	dup[i] = '\0';
 
 	return (dup);
-}
-/**
- * _strcat - Concatenate two strings
- * @dest: destinatin string
- * @src: source string
- * Return: pointer to string @dest
- */
-char *_strcat(char *dest, char *src)
-{
-	int i = 0;
-	int len = 0;
-
-	while (dest[len] != '\0')
-		len++;
-
-	while (src[i] != '\0')
-	{
-		dest[len + i] = src[i];
-		i++;
-	}
-	dest[len + i] = '\0';
-	return (dest);
 }
 /**
  * freeData - free the data
