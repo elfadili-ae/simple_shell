@@ -10,7 +10,7 @@ char *opSep(data_t *data)
 	int i, j, len, newlen, opCount = 0, jmp;
 	char op[] = {'|', '&', ';', '$'}, *nline, *line = data->lineptr;
 
-	len = strlen(line);
+	len = _strlen(line);
 	for (j = 0; j < 4; j++)
 		for (i = 0; line[i]; i++)
 		{

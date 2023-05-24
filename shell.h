@@ -143,5 +143,6 @@ char *_memcpy(char *dest, char *src, unsigned int n);
 int _isDigit(char *s);
 void print_int(int n, int stream);
 void itobuff(char *buff, int val);
+int _atoi(char *s);
 
 #endif

@@ -19,7 +19,7 @@ int builtin_exit(data_t *data, int idx)
 	{
 		if (_isDigit(data->cmd[idx + 1]))
 		{
-			code = atoi(data->cmd[idx + 1]);
+			code = _atoi(data->cmd[idx + 1]);
 			freeData(data);
 			exit(code);
 		}
@@ -58,7 +58,7 @@ int builtin_cd(data_t *data, UNUSED int idx)
 	}
 	else if (size == 2)
 	{
-		if (strcmp(data->cmd[1], "-") == 0)
+		if (_strcmp(data->cmd[1], "-") == 0)
 		{
 			_puts(pwd, 1);
 			_puts(" go to pwd\n", 1);
