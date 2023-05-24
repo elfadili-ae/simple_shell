@@ -5,6 +5,7 @@
  * @argc: argument count
  * @argv: argument vector
  * @envp: environment
+ * Return: int
  */
 int main(int argc, char *argv[], char *envp[])
 {
@@ -25,7 +26,12 @@ int main(int argc, char *argv[], char *envp[])
 
 	return (0);
 }
-
+/**
+  * dataInit - data
+  * @data: data holder
+  * @argv: arguments array
+  * @envp: environemnt array
+  */
 void dataInit(data_t *data, char *argv[], char *envp[])
 {
 	int i;
@@ -35,7 +41,7 @@ void dataInit(data_t *data, char *argv[], char *envp[])
 	data->argv = argv;
 
 	/*copy envp*/
-	data->envp = malloc(sizeof(char*) * 64);
+	data->envp = malloc(sizeof(char *) * 64);
 
 	for (i = 0; i < 64; i++)
 		data->envp[i] = NULL;
@@ -43,7 +49,7 @@ void dataInit(data_t *data, char *argv[], char *envp[])
 	envcpy(data->envp, envp);
 	envp = data->envp;
 	/** alias **/
-	data->alias = malloc(sizeof(char*) * 24);
+	data->alias = malloc(sizeof(char *) * 24);
 	for (i = 0; i < 24; i++)
 		data->alias[i] = NULL;
 
@@ -52,7 +58,10 @@ void dataInit(data_t *data, char *argv[], char *envp[])
 	data->cmdSize = 0;
 	data->cmdCounter = 0;
 }
-
+/**
+  * handle_sig - handle sign
+  * @sign: sign
+  */
 void handle_sig(UNUSED int sign)
 {
 	_puts("\n", 1);
