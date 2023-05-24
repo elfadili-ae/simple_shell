@@ -42,9 +42,10 @@ int builtin_exit(data_t *data, int idx)
 	return (1);
 }
 /**
- * builtin_cd
- *
- *
+ * builtin_cd - cd builtin function
+ * @data: data holder
+ * @idx: index
+ * Return: integer
  */
 int builtin_cd(data_t *data, UNUSED int idx)
 {
@@ -91,6 +92,7 @@ int builtin_cd(data_t *data, UNUSED int idx)
 /**
  * builtin_env - print the environement variables
  * @data: data holder
+ * @idx: index
  * Return: 1 (called)
  */
 int builtin_env(data_t *data, UNUSED int idx)
@@ -106,9 +108,10 @@ int builtin_env(data_t *data, UNUSED int idx)
 }
 
 /**
- *
- *
- *
+ * builtin_setenv - set an ennvironement variable
+ * @data: data holder
+ * @idx: index
+ * Return: integer
  */
 int builtin_setenv(data_t *data, int idx)
 {
