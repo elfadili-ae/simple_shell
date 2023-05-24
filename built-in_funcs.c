@@ -48,13 +48,14 @@ int builtin_exit(data_t *data, int idx)
  */
 int builtin_cd(data_t *data, UNUSED int idx)
 {
-	char *sweetHome = _getenv("HOME=", data);
+	char *envHOME = _getenv("HOME=", data);
+	char *homePath = envHOME + _strchr2(envHOME, '=') + 1;
 	char *pwd = _getenv("PWD=", data);
 	int status, size = data->cmdSize;
 
 	if (size == 1)
 	{
-		status = chdir(sweetHome);
+		status = chdir(homePath);
 	}
 	else if (size == 2)
 	{
@@ -79,7 +80,7 @@ int builtin_cd(data_t *data, UNUSED int idx)
 		exit(128);
 
 	}
-	setenv("OLDPWD", pwd, 1);
+	_setenv("OLDPWD", pwd, data);
 	return (1);
 }
 

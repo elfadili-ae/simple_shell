@@ -54,6 +54,9 @@ typedef struct builtin_t
 	int (*f)(data_t*, int);
 } builtin_t;
 
+/*********CD_HANDLER************/
+void _setenv(char *name, char *value, data_t *data);
+
 /******MODE_FUNCTIONS**********/
 void interactive(int argc, data_t *data);
 void processHandler(data_t *data);
