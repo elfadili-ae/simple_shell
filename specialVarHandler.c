@@ -30,7 +30,7 @@ void specialVarHandler(data_t *data)
 			itobuff(buffer, errno);
 			flag = 1;
 		}
-		else if(data->cmd[i][0] == '$')
+		else if (data->cmd[i][0] == '$')
 		{
 			getVarValue(data, i);
 			flag = 0;
@@ -74,7 +74,7 @@ void getVarValue(data_t *data, int idx)
 /**
  * itobuff - int to char buffer
  * @buff: buffer
- * @int: integer
+ * @val: integer
  */
 void itobuff(char *buff, int val)
 {
