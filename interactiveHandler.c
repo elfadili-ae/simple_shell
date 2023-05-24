@@ -93,6 +93,7 @@ void processHandler(data_t *data)
  * @pos: position of the command in the array of commands
  * @c: numberof commands
  * @cmp2: the number of the sep/operator
+ * Return: int
  */
 int processHelper(data_t *data, char **ptr, int *i, int *pos,
 		  int *c, int *cmp2)
@@ -116,7 +117,9 @@ int processHelper(data_t *data, char **ptr, int *i, int *pos,
 /**
  * forking - make a child process for the command to execute
  * @data: data holder
+ * @cmd: command line
  * @exe: the path to the exe
+ * @stat: status
  * Return: the status of the execution
  */
 void forking(data_t *data, char **cmd, char *exe, int *stat)
