@@ -30,6 +30,7 @@ int _strcmp(char *s1, char *s2)
  * _strncmp - Compare n bytes from a string
  * @s1: first string
  * @s2: second string
+ * @n: n bytes
  * Return: 0 (equal) 1 (s1 greater) -1 (s2 greater)
  */
 int _strncmp(const char *s1, const char *s2, size_t n)
@@ -44,7 +45,7 @@ int _strncmp(const char *s1, const char *s2, size_t n)
 		}
 	}
 
-	return 0;
+	return (0);
 }
 
 /**
