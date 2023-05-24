@@ -5,9 +5,10 @@ int printAliases(data_t *data, char *alias);
 void  addAlias(data_t *data, char *alia);
 
 /**
- * aliasHandler -
- *
- *
+ * aliasHandler - Handle alias
+ * @data: data holder
+ * @pos: pos
+ * Return: Character
  */
 char *aliasHandler(data_t *data, int pos)
 {
@@ -47,14 +48,14 @@ int printAliases(data_t *data, char *alias)
 	{
 		if (alias)
 		{
-			if(_strncmp(data->alias[i], alias, _strlen(alias)) == 0
+			if (_strncmp(data->alias[i], alias, _strlen(alias)) == 0
 			   && data->alias[i][_strlen(alias)] == '=')
 				flag = 1;
 			else
 				continue;
 		}
 		len = _strlen(data->alias[i]);
-		for(j = 0; j < len; j++)
+		for (j = 0; j < len; j++)
 		{
 			if (data->alias[i][j] == '=')
 				qflag = 1;
