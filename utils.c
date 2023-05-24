@@ -67,7 +67,7 @@ char *_which(char *cmd, data_t *data)
 		buff[_strlen(pathToken[i])] = '/';
 		_memcpy(buff + _strlen(pathToken[i]) + 1, cmd, l1);
 		buff[l1 + l2 + 1] = '\0';
-		if (0 == access(buff, X_OK))
+		if (access(buff, X_OK) == 0)
 		{
 			freeSarray(pathToken, size);
 			return (buff);

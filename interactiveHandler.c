@@ -127,7 +127,10 @@ void forking(data_t *data, char **cmd, char *exe, int *stat)
 	{
 		*stat = execve(exe, cmd, data->envp);
 		if (*stat == -1)
-			perror(exe), exit(EXIT_FAILURE);
+		{
+			perror(exe);
+			exit(EXIT_FAILURE);
+		}
 	}
 	else /* 母 */
 	{

@@ -13,7 +13,10 @@ char *exeFixer(char *cmd, data_t *data)
 	if (cmd[0] == '/' || cmd[0] == '.')
 	{
 		data->flag = 0;
-		exe = cmd;
+		if (access(cmd, X_OK) == 0)
+			exe = cmd;
+		else
+			return (NULL);
 	}
 	else
 	{
