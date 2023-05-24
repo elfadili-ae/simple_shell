@@ -11,7 +11,7 @@ int main(int argc, char *argv[], char *envp[])
 {
 	data_t data;
 
-	signal(SIGINT, handle_sig);
+	/*signal(SIGINT, handle_sig);*/
 
 	if (isatty(STDIN_FILENO) && argc == 1)
 		data.modo = 1;
