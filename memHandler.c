@@ -23,7 +23,6 @@ char *_memcpy(char *dest, char *src, unsigned int n)
 
 	return (dest);
 }
-
 /**
  * _realloc - reallocate a memory block
  * @ptr: prev pointer
@@ -63,13 +62,11 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 
 	return (p);
 }
-
 /**
  * _strdup - copy a str in a new pointer
  * @str: string to copy
  * Return: pointer to string | NULL (failed)
  */
-
 char *_strdup(char *str)
 {
 	int i, len;
@@ -83,7 +80,7 @@ char *_strdup(char *str)
 	if (dup == NULL)
 	{
 		errno = ENOMEM;
-		return NULL;
+		return (NULL);
 	}
 	for (i = 0; i < _strlen(str); i++)
 		dup[i] = str[i];
@@ -91,14 +88,12 @@ char *_strdup(char *str)
 
 	return (dup);
 }
-
 /**
  * _strcat - Concatenate two strings
  * @dest: destinatin string
  * @src: source string
  * Return: pointer to string @dest
  */
-
 char *_strcat(char *dest, char *src)
 {
 	int i = 0;
@@ -115,11 +110,9 @@ char *_strcat(char *dest, char *src)
 	dest[len + i] = '\0';
 	return (dest);
 }
-
 /**
- * freeData -
- *
- *
+ * freeData - free the data
+ * @data: data holder
  */
 void freeData(data_t *data)
 {
@@ -138,12 +131,10 @@ void freeData(data_t *data)
 	/* free aliases */
 	freeSarray(data->alias, 24);
 }
-
 /**
- *
- *
- *
- *
+ * freeSarray - Free string of arrays
+ * @arr: array
+ * @size: size of array
  */
 void freeSarray(char **arr, int size)
 {
