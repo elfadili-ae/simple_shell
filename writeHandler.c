@@ -6,20 +6,13 @@ void print_int(int n, int stream);
 
 /**
  * _puts - print a string followed by a line
- *@s: pointer to a string
+ * @s: pointer to a string
+ * @stream: stream
  */
 void _puts(char *s, int stream)
 {
 	write(stream, s, _strlen(s));
 }
-
-/**
- * _strlen - calculate the length of a string
- * this function uses recursion.
- * @s: string
- * Return: string length
- */
-
 /**
  * _putchar - writes the character c to stdout
  * @c: The character to print
@@ -31,7 +24,12 @@ int _putchar(char c)
 {
 	return (write(1, &c, 1));
 }
-
+/**
+ * _strlen - calculate the length of a string
+ * this function uses recursion.
+ * @s: string
+ * Return: string length
+ */
 int _strlen(const char *s)
 {
 	int j = 0;
@@ -42,9 +40,9 @@ int _strlen(const char *s)
 	return (j);
 }
 /**
- *
- *
- *
+ * print_int - print an integer
+ * @n: number
+ * @stream: stream
  */
 void print_int(int n, int stream)
 {
