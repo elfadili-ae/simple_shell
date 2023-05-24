@@ -60,8 +60,14 @@ int builtin_cd(data_t *data, UNUSED int idx)
 	{
 		if (_strcmp(data->cmd[1], "-") == 0)
 		{
-			_puts(pwd, 1);
-			_puts(" go to pwd\n", 1);
+			char *oldpwd = getcwd(NULL, 0);
+			if (oldpwd == NULL)
+			{
+				_puts("cd: OLDPWD not set\n", 2);
+				return (1);
+			}
+			status = chdir(oldpwd);
+			free(oldpwd);
 		}
 		else
 			status = chdir(data->cmd[1]);
@@ -73,6 +79,7 @@ int builtin_cd(data_t *data, UNUSED int idx)
 		exit(128);
 
 	}
+	setenv("OLDPWD", pwd, 1);
 	return (1);
 }
 
