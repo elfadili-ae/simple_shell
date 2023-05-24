@@ -1,10 +1,9 @@
 #include "shell.h"
-
-
 /**
  * exeFixer - add the path to the exe if it exists
- *
- *
+ * @cmd: command
+ * @data: data holder
+ * Return: character
  */
 char *exeFixer(char *cmd, data_t *data)
 {
@@ -25,10 +24,8 @@ char *exeFixer(char *cmd, data_t *data)
 	}
 	return (exe);
 }
-
-
 /**
- * cmmandsCounter - count the numer of commands
+ * commandsCounter - count the numer of commands
  * @data: data holder
  * Return: number of commands
  */
@@ -39,17 +36,19 @@ int commandsCounter(data_t *data)
 	for (i = 0; data->cmd[i + 1] != NULL; i++)
 	{
 		if (_strcmp(data->cmd[i], "&&") == 0
-		    || _strcmp(data->cmd[i], "||") == 0
-		    || _strcmp(data->cmd[i], ";") == 0)
+			|| _strcmp(data->cmd[i], "||") == 0
+			|| _strcmp(data->cmd[i], ";") == 0)
 			cmdCount++;
 	}
 	return (cmdCount);
 }
 
 /**
- *
- *
- *
+ * tokCompare - Comapare tokens
+ * @tok: token
+ * @sep: separator
+ * @flag: flag
+ * Return: int
  */
 int tokCompare(char *tok, int *sep, int *flag)
 {
@@ -73,18 +72,18 @@ int tokCompare(char *tok, int *sep, int *flag)
 }
 
 /**
- *
- *
- *
+ * tokChecker - token checker
+ * @tok: token
+ * Return: int
  */
 int tokChecker(char *tok)
 {
-        if (_strcmp(tok, ";") == 0)
-                return (1);
-        else if (_strcmp(tok, "&&") == 0)
-                return (1);
-        else if (_strcmp(tok, "||") == 0)
-                return (1);
+	if (_strcmp(tok, ";") == 0)
+		return (1);
+	else if (_strcmp(tok, "&&") == 0)
+		return (1);
+	else if (_strcmp(tok, "||") == 0)
+		return (1);
 
-        return (0);
+	return (0);
 }
