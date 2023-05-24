@@ -6,36 +6,34 @@
  */
 void _setenv(char *name, char *value, data_t *data)
 {
-	int i = 0, numEnvp = 0;
-	char **newEnvp;
-	char *env;
+	int i, len;
+        char flag = 0;
 
-	for (; data->envp[i] != NULL; i++)
-	{
-		if (envcmp(data->envp[i], name))
-		{
-			char *env = malloc(_strlen(name) + _strlen(value) + 2);
-			sprintf(env, "%s=%s", name, value);
-			free(data->envp[i]);
-			data->envp[i] = env;
-			return;
-		}
-	}
-	while (data->envp[numEnvp] != NULL)
-		numEnvp++;
+        if (name != NULL && value != NULL)
+        {
+                for (i = 0; data->envp[i] != 0; i++)
+                {
+                        if (envcmp(data->envp[i], name))
+                        {
+                                free(data->envp[i]);
+                                flag = 1;
+                                break;
+                        }
+                }
+                len = _strlen(name) + _strlen(value) + 1;
+                data->envp[i] = malloc(len + 1);
+                if (data->envp[i] == NULL)
+                {
+                        errno = ENOMEM;
+                        perror("Error");
+                        exit(128);
+                }
+                _strcpy(data->envp[i], name);
+                _strcat(data->envp[i], "=");
+                _strcat(data->envp[i], value);
+                data->envp[i][len] = '\0';
 
-	newEnvp = realloc(data->envp, sizeof(char*) * (numEnvp + 2));
-	if (newEnvp == NULL)
-	{
-		perror("Error");
-		exit(1);
-	}
-
-	env = malloc(_strlen(name) + _strlen(value) + 2);
-	sprintf(env, "%s=%s", name, value);
-
-	newEnvp[numEnvp] = env;
-	newEnvp[numEnvp + 1] = NULL;
-
-	data->envp = newEnvp;
+                if (!flag)
+                        data->envp[i + 1] = NULL;
+        }
 }

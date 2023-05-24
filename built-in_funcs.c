@@ -51,6 +51,8 @@ int builtin_cd(data_t *data, UNUSED int idx)
 	char *envHOME = _getenv("HOME=", data);
 	char *sweetHome = envHOME + _strchr2(envHOME, '=') + 1;
 	char *pwd = _getenv("PWD=", data);
+	char *sweetPwd = pwd + _strchr2(pwd, '=') + 1;
+	char *oldpwd;
 	int status, size = data->cmdSize;
 
 	if (size == 1)
@@ -61,7 +63,9 @@ int builtin_cd(data_t *data, UNUSED int idx)
 	{
 		if (_strcmp(data->cmd[1], "-") == 0)
 		{
-			char *oldpwd = getcwd(NULL, 0);
+			printf("I am inside the hyphen\n");
+			oldpwd = getcwd(NULL, 0);
+			printf("%s\n", oldpwd);
 			if (oldpwd == NULL)
 			{
 				_puts("cd: OLDPWD not set\n", 2);
@@ -80,7 +84,7 @@ int builtin_cd(data_t *data, UNUSED int idx)
 		exit(128);
 
 	}
-	_setenv("OLDPWD", pwd, data);
+	_setenv("OLDPWD", sweetPwd, data);
 	return (1);
 }
 
