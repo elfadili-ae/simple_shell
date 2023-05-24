@@ -2,7 +2,7 @@
 
 /**
  * openFile - open a file to read from
- @data: data holder
+ * @data: data holder
  * Return: file descriptor
  */
 int openFile(data_t *data)
@@ -23,7 +23,8 @@ int openFile(data_t *data)
 
 /**
  * closeFile - close a file
- @data: data holder
+ * @data: data holder
+ * @fd: integer
  */
 void closeFile(data_t *data, int fd)
 {
