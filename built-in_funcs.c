@@ -60,8 +60,12 @@ int builtin_cd(data_t *data, UNUSED int idx)
 			prevdir = _getenv("OLDPWD=", data);
 			if (prevdir != NULL)
 				status = setPWD(data, prevdir, 1);
-/*			_puts(prevdir + _strchr2(prevdir, '=') + 1, 1);*/
-/*			_puts("\n", 1);*/
+			else
+			{
+				_setenv(data, "OLDPWD", getcwd(oldpwd, 128));
+				_puts(oldpwd + _strchr2(oldpwd, '=') + 1, 1);
+				_puts("\n", 1);
+			}
 		}
 		else
 		{
