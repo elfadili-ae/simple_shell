@@ -46,6 +46,7 @@ char *opSep(data_t *data)
  * opChar - separate && || and ; with spaces
  * @line: command buffer
  * @nline: new buffer
+ * @idx: index
  * @jmp: fix the nline index
  */
 void opChar(char *line, char *nline, int *idx, int *jmp)
@@ -96,7 +97,7 @@ void specialChar(char *line, char *nline, int *idx, int *jmp)
 	{
 		for (; line[i] != ' ' && line[i] != '\n' && line[i] != '&'
 			     && line[i] != '|' && line[i] != ';'
-			     && line[i] != '$'&& line[i] != '\0'; i++)
+			     && line[i] != '$' && line[i] != '\0'; i++)
 		{
 			nline[i + j] = line[i];
 		}
@@ -121,10 +122,10 @@ void commentHandler(data_t *data)
 	}
 	for (i = 1; data->lineptr[i] != '\0'; i++)
 	{
-			if (data->lineptr[i] == '#' && data->lineptr[i - 1] == ' ')
-			{
-				data->lineptr[i] = '\0';
-				return;
-			}
+		if (data->lineptr[i] == '#' && data->lineptr[i - 1] == ' ')
+		{
+			data->lineptr[i] = '\0';
+			return;
+		}
 	}
 }
