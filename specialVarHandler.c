@@ -30,7 +30,8 @@ void specialVarHandler(data_t *data)
 			itobuff(buffer, errno);
 			flag = 1;
 		}
-		else if (data->cmd[i][0] == '$')
+		else if (data->cmd[i][0] == '$'
+			 && data->cmd[i][1] != ' '&& data->cmd[i][1] != '\0')
 		{
 			getVarValue(data, i);
 			flag = 0;
