@@ -7,6 +7,8 @@
 void _setenv(char *name, char *value, data_t *data)
 {
 	int i = 0, numEnvp = 0;
+	char **newEnvp;
+	char *env;
 
 	for (; data->envp[i] != NULL; i++)
 	{
@@ -22,14 +24,14 @@ void _setenv(char *name, char *value, data_t *data)
 	while (data->envp[numEnvp] != NULL)
 		numEnvp++;
 
-	char **newEnvp = realloc(data->envp, sizeof(char*) * (numEnvp + 2));
+	newEnvp = realloc(data->envp, sizeof(char*) * (numEnvp + 2));
 	if (newEnvp == NULL)
 	{
 		perror("Error");
 		exit(1);
 	}
 
-	char *env = malloc(_strlen(name) + _strlen(value) + 2);
+	env = malloc(_strlen(name) + _strlen(value) + 2);
 	sprintf(env, "%s=%s", name, value);
 
 	newEnvp[numEnvp] = env;

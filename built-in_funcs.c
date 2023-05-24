@@ -49,13 +49,13 @@ int builtin_exit(data_t *data, int idx)
 int builtin_cd(data_t *data, UNUSED int idx)
 {
 	char *envHOME = _getenv("HOME=", data);
-	char *homePath = envHOME + _strchr2(envHOME, '=') + 1;
+	char *sweetHome = envHOME + _strchr2(envHOME, '=') + 1;
 	char *pwd = _getenv("PWD=", data);
 	int status, size = data->cmdSize;
 
 	if (size == 1)
 	{
-		status = chdir(homePath);
+		status = chdir(sweetHome);
 	}
 	else if (size == 2)
 	{
