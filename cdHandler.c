@@ -49,7 +49,7 @@ void _setenv(data_t *data, char *name, char *value)
  * @data: data holder
  * @newDir: new working directory
  * @p: new or -
- * @Return: 0 (success | 1 (failed)
+ * Return: 0 (success | 1 (failed)
  */
 int setPWD(data_t *data, char *newDir, int p)
 {
@@ -68,12 +68,11 @@ int setPWD(data_t *data, char *newDir, int p)
 			_puts(": ", 2);
 			print_int(data->cmdCounter, 2);
 			_puts(": cd: can't cd to ", 2);
-			_puts(newDir, 2);
+			_puts(newDir + pos +  p, 2);
 			_puts("\n", 2);
 			errno = 2;
 			return (1);
 		}
-		pos = _strchr2(newDir, '=');
 		_setenv(data, "PWD", newDir + pos + p);
 	}
 	if (p)
@@ -82,6 +81,6 @@ int setPWD(data_t *data, char *newDir, int p)
 		_puts("\n", 1);
 	}
 	pos = _strchr2(prevdir, '=');
-	_setenv(data, "OLDPWD", prevdir + pos + p);
+	_setenv(data, "OLDPWD", prevdir + pos);
 	return (0);
 }

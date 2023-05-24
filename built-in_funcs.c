@@ -58,7 +58,7 @@ int builtin_cd(data_t *data, UNUSED int idx)
 		if (_strcmp(data->cmd[1], "-") == 0)
 		{
 			prevdir = _getenv("OLDPWD=", data);
-			if(prevdir != NULL)
+			if (prevdir != NULL)
 				status = setPWD(data, prevdir, 1);
 /*			_puts(prevdir + _strchr2(prevdir, '=') + 1, 1);*/
 /*			_puts("\n", 1);*/
@@ -70,7 +70,7 @@ int builtin_cd(data_t *data, UNUSED int idx)
 	}
 	else
 	{
-		if(sweetHome == NULL)
+		if (sweetHome == NULL)
 		{
 			pos = 0;
 			sweetHome = getcwd(oldpwd, 128);
