@@ -26,6 +26,7 @@ int _getLine(data_t *data, int *size, int stream)
 				return (-1);
 			} data->lineptr = tmp;
 		}
+		fflush(stdout);
 		rd = read(stream, &c, 1);
 		if (rd == 0)
 		{
