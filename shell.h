@@ -115,6 +115,7 @@ int  printAliases(data_t *data, char *alias);
 
 /*********getline**************/
 int _getLine(data_t *data, int *size, int stream);
+int lineHelper(data_t *data, int rd, int i);
 
 /*********STRTOK***************/
 char **_strtok(char *str, const char *delim, int *size);

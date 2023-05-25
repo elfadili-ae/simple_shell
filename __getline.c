@@ -26,19 +26,11 @@ int _getLine(data_t *data, int *size, int stream)
 			} data->lineptr = tmp;
 		} fflush(stdout);
 		rd = read(stream, &c, 1);
-		if (rd == 0)
-		{
-			if (i == 0)
-			{
-				freeSarray(data->envp, 64), freeSarray(data->alias, 24);
-				free(data->lineptr), exit(errno);
-			} break;
-		}
+		rd = lineHelper(data, rd, i);
+			if (rd == 0)
+				break;
 		if (rd == -1)
-		{
-			free(data->lineptr), data->lineptr = NULL;
 			return (-1);
-		}
 		if (flag == 0 && c == ' ')
 		{
 			i--;
@@ -52,4 +44,30 @@ int _getLine(data_t *data, int *size, int stream)
 		} data->lineptr[i] = c;
 	} data->lineptr[i] = '\0';
 	return (i);
+}
+
+/**
+ * lineHelper - manage the read
+ * @data: data holder
+ * @rd: read status
+ * @i: char count
+ * Return: 0 (empty) | -1 (failed)
+ */
+int lineHelper(data_t *data, int rd, int i)
+{
+	if (rd == 0)
+	{
+		if (i == 0)
+		{
+			freeData(data);
+			exit(errno);
+		}
+		return (0);
+	}
+	if (rd == -1)
+	{
+		free(data->lineptr), data->lineptr = NULL;
+		return (-1);
+	}
+	return (rd);
 }
