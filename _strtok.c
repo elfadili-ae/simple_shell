@@ -22,7 +22,7 @@ char **_strtok(char *str, const char *delim, int *size)
 		return (NULL);
 	for (i = 0; i < *size; i++)
 	{
-		while (str[j] == *delim)
+		while (isDelim(str[j], delim))
 			j++;
 
 		toklen = tokLen(str, delim, j);
