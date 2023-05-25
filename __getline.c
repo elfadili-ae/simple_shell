@@ -8,7 +8,7 @@
  */
 int _getLine(data_t *data, int *size, int stream)
 {
-	int i = 0, rd = 0;
+	int i = 0, rd = 0, flag = 0;
 	char c = '\0', *tmp = NULL;
 
 	if (data->lineptr == NULL)
@@ -24,16 +24,14 @@ int _getLine(data_t *data, int *size, int stream)
 				free(data->lineptr), data->lineptr = NULL;
 				return (-1);
 			} data->lineptr = tmp;
-		}
-		fflush(stdout);
+		} fflush(stdout);
 		rd = read(stream, &c, 1);
 		if (rd == 0)
 		{
 			if (i == 0)
 			{
 				freeSarray(data->envp, 64), freeSarray(data->alias, 24);
-				free(data->lineptr);
-				exit(errno);
+				free(data->lineptr), exit(errno);
 			} break;
 		}
 		if (rd == -1)
@@ -41,6 +39,12 @@ int _getLine(data_t *data, int *size, int stream)
 			free(data->lineptr), data->lineptr = NULL;
 			return (-1);
 		}
+		if (flag == 0 && c == ' ')
+		{
+			i--;
+			continue;
+		} else
+			flag = 1;
 		if (c == '\n')
 		{
 			data->lineptr[(i++)] = c;
