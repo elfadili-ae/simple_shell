@@ -13,9 +13,10 @@ int openFile(data_t *data)
 	if (fd_src == -1)
 	{
 		_puts(data->progName, 2);
-		_puts(": 0: cannot open ", 2);
+		_puts(": ", 2);
+		print_int(data->cmdCounter, 2);
+		_puts(": Can't open ", 2);
 		_puts(data->argv[1], 2);
-		_puts(": No such file",2);
 		_puts("\n", 2);
 		exit(2);
 	}
@@ -35,7 +36,9 @@ void closeFile(data_t *data, int fd)
 	if (stat == -1)
 	{
 		_puts(data->progName, 2);
-		_puts(": 0: cannot close ", 2);
+		_puts(": ", 2);
+		print_int(data->cmdCounter, 2);
+		_puts(": Can't close ", 2);
 		_puts(data->argv[1], 2);
 		_puts("\n", 2);
 		exit(EXIT_FAILURE);
