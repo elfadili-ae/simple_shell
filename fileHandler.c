@@ -12,6 +12,7 @@ int openFile(data_t *data)
 	fd_src = open(data->argv[1], O_RDONLY);
 	if (fd_src == -1)
 	{
+		freeData(data);
 		_puts(data->progName, 2);
 		_puts(": ", 2);
 		print_int(data->cmdCounter, 2);

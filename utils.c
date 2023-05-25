@@ -25,7 +25,9 @@ int prompt(data_t *data, int *n, int stream)
 		exit(errno);
 	}
 	if (val == EOF)
+	{
 		exit(errno);
+	}
 	if (val == 1)
 		return (0);
 
