@@ -16,7 +16,10 @@ void interactive(int ac, data_t *data)
 	{
 		data->cmdCounter++;
 		if (line == 0)
+		{
+			free(data->lineptr);
 			continue;
+		}
 
 		commentHandler(data);
 		data->lineptr = opSep(data);
