@@ -13,7 +13,6 @@ int _getLine(data_t *data, int *size, int stream)
 
 	if (data->lineptr == NULL)
 		*size = 0;
-
 	for (i = 0; c != EOF && c != '\n'; i++)
 	{
 		if (i >= *size)

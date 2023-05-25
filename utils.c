@@ -38,7 +38,9 @@ int prompt(data_t *data, int *n, int stream)
 		freeSarray(data->envp, 64);
 		exit(EXIT_FAILURE);
 	}
-	return (val);
+	if (checkOnlySpaces(data->lineptr))
+		return (val);
+	return (0);
 }
 
 /**
