@@ -18,7 +18,7 @@ int openFile(data_t *data)
 		_puts(": Can't open ", 2);
 		_puts(data->argv[1], 2);
 		_puts("\n", 2);
-		exit(2);
+		exit(127);
 	}
 	return (fd_src);
 }
