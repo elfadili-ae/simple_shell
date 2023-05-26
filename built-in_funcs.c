@@ -63,7 +63,7 @@ int builtin_cd(data_t *data, UNUSED int idx)
 			else
 			{
 				_setenv(data, "OLDPWD", getcwd(oldpwd, 128));
-				_puts(oldpwd + _strchr2(oldpwd, '=') + 1, 1);
+				_puts(oldpwd + _strchr2(oldpwd, '='), 1);
 				_puts("\n", 1);
 			}
 		}
