@@ -149,5 +149,6 @@ void print_int(int n, int stream);
 void itobuff(char *buff, int val);
 int _atoi(char *s);
 int checkOnlySpaces(char *line);
+void rev_string(char *s);
 
 #endif

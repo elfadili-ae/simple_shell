@@ -59,14 +59,17 @@ int lineHelper(data_t *data, int rd, int i)
 	{
 		if (i == 0)
 		{
-			freeData(data);
+			free(data->lineptr);
+			freeSarray(data->envp, 64);
+			freeSarray(data->alias, 24);
 			exit(errno);
 		}
 		return (0);
 	}
 	if (rd == -1)
 	{
-		free(data->lineptr), data->lineptr = NULL;
+		free(data->lineptr);
+		data->lineptr = NULL;
 		return (-1);
 	}
 	return (rd);

@@ -84,4 +84,7 @@ void itobuff(char *buff, int val)
 	do {
 		buff[j++] = val % 10 + '0';
 	} while ((val /= 10) > 0);
+	 buff[j] = '\0';
+
+	 rev_string(buff);
 }
