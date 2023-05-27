@@ -7,22 +7,30 @@ logical AND **&&**, and logical OR **||**.
 
 ## Usage
 To compile the project use this command:
-` gcc -o simple_shell shell.c `
+```
+gcc -o simple_shell shell.c
+```
 
 To run the simple shell, execute the compiled binary:
-` ./simple_shell `
+```
+./simple_shell
+```
 The shell will display a prompt where you can enter commands.
 
 ## Command-Line Arguments
 You can also provide a file containing commands as an argument to the simple shell.
 This will execute the commands from the file. The usage is as follows:
-` ./simple_shell [filename] `
+```
+./simple_shell [filename]
+```
 
 ## Built-in Functionalities
 
 ### Exit
 To exit the simple shell, use the **exit** command:
-` exit `
+```
+exit
+```
 
 ### Environment Manipulation
 The simple shell supports the following environment manipulation commands:
@@ -33,12 +41,16 @@ The simple shell supports the following environment manipulation commands:
 
 ## Change Directory
 To change the current working directory, use the **cd** command:
-` cd [directory] `
+```
+cd [directory]
+```
 Replace **[directory]** with the path to the directory you want to change to.
 
 ## Alias
 The **alias** command allows you to define aliases for other commands. The usage is as follows:
-` alias [alias_name]=[command] `
+```
+alias [alias_name]=[command]
+```
 Replace **[alias_name]** with the name you want to assign to the alias, and **[command]** with
 the command you want to associate with the alias.
 
